@@ -1,6 +1,6 @@
 <template>
     <div>
-        回答
+        班级管理
     </div>
 </template>
 

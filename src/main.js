@@ -27,7 +27,7 @@ Vue.config.productionTip = false
 //   //所包括的子路由
 //   const student = ['login','stuhome','stuinfo','stuscore','study','problem','sturesources'];
 //   const teacher = ['login','teacherhome','teacherinfo','myclass','answer','recordscore','teacherresources'];
-//   const admin = ['login','adminhome','admininfo'];
+//   const admin = ['login','adminhome','admininfo','allstuinfo','allteacher','classinfo','adminresources'];
 
 //   if (!user && to.path != '/login' ) {
 //     //未登录状态

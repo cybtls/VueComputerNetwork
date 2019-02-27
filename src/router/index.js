@@ -43,6 +43,10 @@ export default new Router({
       component:adminhome,
       children:[
         { path:'admininfo', name:'admininfo', component:()=> import('../views/admin/admininfo.vue') },
+        { path:'adminresources', name:'adminresources', component:()=> import('../views/admin/adminresources.vue') },
+        { path:'allstuinfo', name:'allstuinfo', component:()=> import('../views/admin/allstuinfo.vue') },
+        { path:'allteacherinfo', name:'allteacherinfo', component:()=> import('../views/admin/allteacherinfo.vue') },
+        { path:'classinfo', name:'classinfo', component:()=> import('../views/admin/classinfo.vue') },
       ]
     },
     {
