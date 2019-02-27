@@ -19,7 +19,7 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
-             <img src="../../assets/logo.png">
+            <img src="../../assets/logo.png">
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>修改信息</el-dropdown-item>
@@ -28,8 +28,6 @@
         </el-dropdown>
       </el-col>
     </el-col>
-
-
 
     <!-- main -->
     <el-col :span="24" class="main">
@@ -45,62 +43,99 @@
         >
           <el-menu-item index="1">
             <i class="fa fa-child"></i>&nbsp;&nbsp;&nbsp;
-            <span slot="title">我的班级</span>
+            <span slot="title" @click="tomyclass">我的班级</span>
           </el-menu-item>
           <el-menu-item index="2">
             <i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;&nbsp;
-            <span slot="title">登记成绩</span>
+            <span slot="title" @click="torecordscore">登记成绩</span>
           </el-menu-item>
           <el-menu-item index="3">
             <i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;
-            <span slot="title">资源管理</span>
+            <span slot="title" @click="toresources">资源管理</span>
           </el-menu-item>
           <el-menu-item index="4">
             <i class="fa fa-question"></i>&nbsp;&nbsp;&nbsp;
-            <span slot="title">学生答疑</span>
+            <span slot="title" @click="toanswer">学生答疑</span>
           </el-menu-item>
           <el-menu-item index="5">
             <i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;
             <!-- <router-link slot="title" to="/stuinfo">个人信息</router-link> -->
-            <span slot="title" @click="tostuinfo">个人信息</span>           
+            <span slot="title" @click="toteacherinfo">个人信息</span>
           </el-menu-item>
         </el-menu>
 
         <ul v-show="!navshow">
-          <el-tooltip class="item" effect="dark" content="我的班级" placement="right" transition="el-zoom-in-center">
-            <li class="el-menu-item" @click="changenav"><i class="fa fa-child"/></li>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="我的班级"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="changenav">
+              <i class="fa fa-child"/>
+            </li>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="登记成绩" placement="right" transition="el-zoom-in-center">
-            <li class="el-menu-item" @click="changenav"><i class="fa fa-pencil-square-o"/></li>
-          </el-tooltip> 
-          <el-tooltip class="item" effect="dark" content="资源上传" placement="right" transition="el-zoom-in-center">
-           <li class="el-menu-item" @click="changenav"><i class="fa fa-file"/></li>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="登记成绩"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="changenav">
+              <i class="fa fa-pencil-square-o"/>
+            </li>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="学生答疑" placement="right" transition="el-zoom-in-center">
-            <li class="el-menu-item" @click="changenav"><i class="fa fa-question"/></li>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="资源上传"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="changenav">
+              <i class="fa fa-file"/>
+            </li>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="个人信息" placement="right" transition="el-zoom-in-center">
-            <li class="el-menu-item" @click="changenav"><i class="fa fa-user"/></li>
-          </el-tooltip>         
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="学生答疑"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="changenav">
+              <i class="fa fa-question"/>
+            </li>
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="个人信息"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="changenav">
+              <i class="fa fa-user"/>
+            </li>
+          </el-tooltip>
         </ul>
-
-
-
       </aside>
 
       <el-col :span="24">
         <transition name="fade" mode="out-in">
           <router-view/>
-        </transition>        
+        </transition>
       </el-col>
     </el-col>
   </el-row>
 </template>
 
 <script>
-import logo from '../../components/logo.vue'
+import logo from "../../components/logo.vue";
 export default {
-  components:{
+  components: {
     logo
   },
   data() {
@@ -112,8 +147,25 @@ export default {
     changenav() {
       this.navshow = !this.navshow;
     },
-    tostuinfo(){
-      this.$router.push({path:'/teacherhome/teacherinfo'});
+    //管理班级
+    tomyclass() {
+      this.$router.push({ path: "/teacherhome/myclass" });
+    },
+    //记录成绩
+    torecordscore() {
+      this.$router.push({ path: "/teacherhome/recordscore" });
+    },
+    //资源管理
+    toresources() {
+      this.$router.push({ path: "/teacherhome/teacherresources" });
+    },
+    //学生答疑
+    toanswer() {
+      this.$router.push({ path: "/teacherhome/answer" });
+    },
+    //个人信息
+    toteacherinfo() {
+      this.$router.push({ path: "/teacherhome/teacherinfo" });
     }
   }
 };

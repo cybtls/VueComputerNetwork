@@ -1,6 +1,6 @@
 <template>
     <div>
-        教师个人信息
+        问题
     </div>
 </template>
 

@@ -45,7 +45,7 @@
       <el-row>
         <el-col :span="4"></el-col>
         <el-col :span="8">
-          <el-button round @click="stulogin">登录</el-button>
+          <el-button round @click="stulogin" :disabled="isDisabled">登录</el-button>
         </el-col>
         <el-col :span="6">
           <el-button round @click="reset">重置</el-button>
@@ -91,61 +91,119 @@
           <el-button round @click="reset">重置</el-button>
         </el-col>
         <el-col :span="4">
-          <router-link to="/stuhome" class="link"><i class="fa fa-long-arrow-right" aria-hidden="true">注册</i></router-link>
+          <router-link to="/stuhome" class="link">
+            <i class="fa fa-long-arrow-right" aria-hidden="true">注册</i>
+          </router-link>
         </el-col>
       </el-row>
     </template>
-
   </div>
 </template>
 
 <script>
+import { student, teacher } from "@/api/api";
 export default {
   data() {
     return {
       role: "stu",
       stuaccount: "",
       stupassword: "",
-      teacheraccount:"",
-      teacherpassword:"",
-      code: ""
+      teacheraccount: "",
+      teacherpassword: "",
+      code: "",
+      //防止用户多次点击
+      isDisabled: false
     };
   },
   methods: {
-    reset(){
+    reset() {
       this.stuaccount = "";
-      this.stupassword = "";  
+      this.stupassword = "";
       this.teacheraccount = "";
       this.teacherpassword = "";
     },
-    stu(){
+    //切换为学生身份
+    stu() {
       this.role = "stu";
       this.teacheraccount = "";
       this.teacherpassword = "";
     },
-    teacher(){
+    //切换为老师身份
+    teacher() {
       this.role = "teacher";
       this.stuaccount = "";
       this.stupassword = "";
     },
-    stulogin(){
-      console.log("stulogin");
+    // 学生登录
+    stulogin() {
+      // this.isDisabled = true;
+      this.stuaccount = parseInt(this.stuaccount);
+      // console.log(this.stuaccount);
+      // console.log(this.stupassword);
+      var param = {
+        stuaccount: this.stuaccount,
+        stupassword: this.stupassword
+      };
+      student.stulogin(param).then(res => {
+        if (res.data.code == 204) {
+          this.$message({
+            message: "你的账号或密码错误，请重新输入",
+            type: "error"
+          });
+        } else {
+          if (res.data.code == 202) {
+            this.$message({
+              message: "你的账号为封禁状态，请联系管理员",
+              type: "warning"
+            });
+          } else {
+            sessionStorage.setItem("role", "stu");
+            sessionStorage.setItem("user", JSON.stringify(res.data.stu));
+            this.$router.push({ path: "/stuhome/stuinfo" });
+          }
+        }
+      });
+      // this.isDisabled = false;
     },
-    teacherlogin(){
-      console.log("teacherlogin");
+    //教师登录
+    teacherlogin() {
+      var param = {
+        teacheraccount: this.teacheraccount,
+        teacherpassword: this.teacherpassword
+      };
+      console.log(param);
+      teacher.teacherlogin(param).then(res => {
+        if (res.data.code == 204) {
+          this.$message({
+            message: "你的账号或密码错误，请重新输入",
+            type: "error"
+          });
+        } else {
+          if (res.data.code == 202) {
+            this.$message({
+              message: "你的账号为封禁状态，请联系管理员",
+              type: "warning"
+            });
+          } else {
+            sessionStorage.setItem("role", "teacher");
+            sessionStorage.setItem("user", JSON.stringify(res.data.teacher));
+            this.$router.push({ path: "/teacherhome/teacherinfo" });
+          }
+        }
+      });
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.active{
+.active {
   font-weight: bold;
 }
 .login {
   width: 27%;
-  background-color:#fff;
-  opacity:0.95;
+  background-color: #fff;
+  opacity: 0.95;
   .sign {
     font-family: "YouYuan";
     font-size: 18px;
@@ -175,7 +233,7 @@ export default {
 .el-input {
   width: 80%;
 }
-.link{
+.link {
   float: right;
   font-size: 15px;
   line-height: 40px;

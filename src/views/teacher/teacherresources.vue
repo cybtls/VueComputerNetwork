@@ -1,6 +1,6 @@
 <template>
     <div>
-        教师个人信息
+        资源管理
     </div>
 </template>
 
