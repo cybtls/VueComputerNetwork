@@ -58,15 +58,6 @@ Vue.config.productionTip = false
 // })
 
 
-// if(role != 'teacher' && teacher.indexOf(to.name) >= 0){
-//   // next();
-//   alert("访问不合法")
-//   // next({ path: '/login' })
-//   router.go(-1);
-// }else{
-//   next()
-// }
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

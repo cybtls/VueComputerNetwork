@@ -7,6 +7,8 @@ axios.defaults.withCredentials=true;
 
 export const student = {
     stulogin(params){ return axios.post(`${base}/student/stulogin`,params).then(res=>{return res})},
+    getmyscore(params){ return axios.post(`${base}/student/getmyscore`,params).then(res=>{return res})},
+    getmyscorebyname(params){ return axios.post(`${base}/student/getmyscorebyname`,params).then(res=>{return res})},
 }
 
 export const teacher = {
@@ -15,3 +17,4 @@ export const teacher = {
 
 export const admin = {
 }
+

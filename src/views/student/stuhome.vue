@@ -235,7 +235,8 @@ export default {
       width: 250px;
     }
     .nav-close {
-      background-color: #eef1f6;
+      background-color: #000000;
+      // #eef1f6
       flex: 0 0 60px;
       width: 60px;
     }
