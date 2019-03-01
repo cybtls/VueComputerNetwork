@@ -5,8 +5,8 @@
       <el-col :span="24" class="search">
         <el-col :span="16">&nbsp;</el-col>
         <el-col :span="4" class="searchinput">
-          <el-input v-model="coursename" placeholder="请输入要查询的课程"></el-input>
-          <el-button icon="el-icon-search" circle @click="getmyscorebyname"></el-button>
+          <el-input v-model="coursename" placeholder="请输入要查询的课程" prefix-icon="el-icon-search" @keyup.enter.native="getmyscorebyname"></el-input>
+          <el-button class="searchbutton" icon="el-icon-search" circle @click="getmyscorebyname" ></el-button>
         </el-col>
       </el-col>
 
@@ -14,11 +14,16 @@
       <el-col :span="24">
         <el-col :span="4">&nbsp;</el-col>
         <el-col :span="16">
-          <el-table :data="myscore" border style="width:100%" v-loading="loading">
-            <el-table-column prop="course.courseName" label="课程"></el-table-column>
-            <el-table-column prop="student.stuClass.className" label="班级"></el-table-column>
-            <el-table-column prop="student.stuName" label="姓名"></el-table-column>
-            <el-table-column prop="courseScore" label="成绩"></el-table-column>
+          <el-table 
+            :data="myscore" 
+            border 
+            style="width:100%" 
+            v-loading="loading" 
+            stripe>
+              <el-table-column prop="course.courseName" label="课程"></el-table-column>
+              <el-table-column prop="student.stuClass.className" label="班级"></el-table-column>
+              <el-table-column prop="student.stuName" label="姓名"></el-table-column>
+              <el-table-column prop="courseScore" label="成绩"></el-table-column>
           </el-table>
         </el-col>
         <el-col :span="4"></el-col>
@@ -109,5 +114,14 @@ export default {
     display: flex;
     flex-direction: row;
   }
+  .searchbutton{
+    margin-left: 10px;
+  }
+}
+.suc{
+  background-color: lightgreen;
+}
+.fal{
+  background-color: brown;
 }
 </style>

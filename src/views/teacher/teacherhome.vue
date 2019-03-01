@@ -19,7 +19,7 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
-            <img src="../../assets/logo.png">
+            <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>修改信息</el-dropdown-item>
@@ -233,7 +233,8 @@ export default {
       width: 250px;
     }
     .nav-close {
-      background-color: #eef1f6;
+      background-color: #000000;
+      // #eef1f6
       flex: 0 0 60px;
       width: 60px;
     }

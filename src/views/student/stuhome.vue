@@ -19,11 +19,11 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
-            <img src="../../assets/logo.png">
+            <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>修改信息</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item >修改信息</el-dropdown-item>
+            <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -138,18 +138,12 @@ export default {
   components: {
     logo
   },
-  created(){
-    // alert(sessionStorage.getItem("user"));
-  },
   data() {
     return {
       navshow: true
     };
   },
   methods: {
-    show(){
-      alert(sessionStorage.getItem("user"));
-    },
     changenav() {
       this.navshow = !this.navshow;
     },
@@ -168,6 +162,9 @@ export default {
     tostuinfo() {
       this.$router.push({ path: "/stuhome/stuinfo" });
     },
+    logout(){
+      this.$router.push({ path: "/login" });
+    }
   }
 
 };

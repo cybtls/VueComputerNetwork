@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <!-- 身份切换 -->
     <el-row>
       <el-col :span="12">
         <el-button class="role" type="text" @click="stu" :class="role=='stu'?'active':''">
@@ -101,6 +102,7 @@
         </el-col>
       </el-row>
     </template>
+    
   </div>
 </template>
 
@@ -245,11 +247,9 @@ export default {
               } else {
                 sessionStorage.setItem("role", "stu");
                 sessionStorage.setItem("user", JSON.stringify(res.data.stu));
-                console.log(res.data.stu);
-                this.$router.push({ path: "/stuhome/stuinfo" });
+                this.$router.push({ path: "/stuhome/stuscore" });
               }
             }
-            // JSON.stringify(res.data.stu)
           });
         }
       }
