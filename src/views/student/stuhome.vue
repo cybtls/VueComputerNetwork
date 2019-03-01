@@ -22,7 +22,7 @@
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item >修改信息</el-dropdown-item>
+            <el-dropdown-item @click.native="myinfo">修改信息</el-dropdown-item>
             <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -164,6 +164,9 @@ export default {
     },
     logout(){
       this.$router.push({ path: "/login" });
+    },
+    myinfo(){
+      this.$router.push({ path: "/stuhome/stuinfo" });
     }
   }
 

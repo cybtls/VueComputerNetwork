@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: #fff;">
     <el-row>
       <!-- 搜索栏 -->
       <el-col :span="24" class="search">
