@@ -79,13 +79,14 @@ export default {
           { max: 255, message: "字数超过限制" }
         ]
       },
-      loading: true
+      loading: false
     };
   },
   mounted() {
     this.user = sessionStorage.getItem("user");
     this.user = JSON.parse(this.user);
     this.stuform = this.user;
+    this.loading = false
   },
   methods:{
     submitForm(formName) {
@@ -94,7 +95,7 @@ export default {
           var params = {
             stuform: JSON.stringify(this.stuform)
           };
-          this.loading = true;
+          this.loading = false;
           student.updatemyinfo(params).then(res => {
             if (res.data.code == 200) {
               this.$message({

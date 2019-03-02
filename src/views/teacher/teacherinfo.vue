@@ -102,6 +102,7 @@ export default {
     };
   },
   mounted() {
+    // console.log(sessionStorage.getItem("user"));
     this.user = sessionStorage.getItem("user");
     this.user = JSON.parse(this.user);
     this.originaltime = this.user.teacherCreatedate;
@@ -115,8 +116,8 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var tform = this.teacherform;
-          tform.teacherCreatedate = new Date(this.originaltime);
-          console.log(tform.teacherCreatedate);
+          tform.teacherCreatedate = this.originaltime;
+          // console.log(tform);
           var params = {
             stuform: JSON.stringify(tform)
           };
