@@ -103,16 +103,11 @@ export default {
   },
   mounted() {
     // console.log(sessionStorage.getItem("user"));
-    this.user = sessionStorage.getItem("user");
-    this.user = JSON.parse(this.user);
-    this.originaltime = this.user.teacherCreatedate;
-    this.user.teacherCreatedate = this.timestampToTime(
-      this.user.teacherCreatedate
-    );
-    this.teacherform = this.user;
+    this.start();
   },
   methods: {
     submitForm(formName) {
+      this.loading = true;
       this.$refs[formName].validate(valid => {
         if (valid) {
           var tform = this.teacherform;
@@ -122,12 +117,35 @@ export default {
             stuform: JSON.stringify(tform)
           };
           teacher.updatemyinfo(params).then(res => {
-            console.log(res);
+            if (res.data.code == 200) {
+              this.$message({
+                showClose: true,
+                message: "更新成功",
+                type: "success",
+                duration: 2000
+              });
+              sessionStorage.removeItem("user");
+              sessionStorage.setItem("user", JSON.stringify(this.teacherform));
+              this.start();
+            } else {
+              this.$message({
+                showClose: true,
+                message: "更新失败，请联系管理员",
+                type: "error",
+                duration: 2000
+              });
+            }
           });
         } else {
-          alert("fal");
+          this.$message({
+            showClose: true,
+            message: "请按要求填写",
+            type: "error",
+            duration: 2000
+          });
         }
       });
+      this.loading = false;
     },
     resetForm() {
       this.teacherform.teacherName = "";
@@ -150,7 +168,9 @@ export default {
       // var s = date.getSeconds();
       return Y + M + D;
     },
-    add0(m){return m<10?'0'+m:m },
+    add0(m) {
+      return m < 10 ? "0" + m : m;
+    },
     format(shijianchuo) {
       //shijianchuo是整数，否则要parseInt转换
       var time = new Date(shijianchuo);
@@ -173,6 +193,15 @@ export default {
         ":" +
         this.add0(s)
       );
+    },
+    start() {
+      this.user = sessionStorage.getItem("user");
+      this.user = JSON.parse(this.user);
+      this.originaltime = this.user.teacherCreatedate;
+      this.user.teacherCreatedate = this.timestampToTime(
+        this.user.teacherCreatedate
+      );
+      this.teacherform = this.user;
     }
   }
 };

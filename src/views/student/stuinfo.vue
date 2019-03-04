@@ -25,10 +25,22 @@
             <el-input type="text" v-model="stuform.stuClass.className" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="密保问题" prop="stuQuestion">
-            <el-input type="textarea" v-model="stuform.stuQuestion" rows="4" resize="none" class="el-input"></el-input>
+            <el-input
+              type="textarea"
+              v-model="stuform.stuQuestion"
+              rows="4"
+              resize="none"
+              class="el-input"
+            ></el-input>
           </el-form-item>
           <el-form-item label="密保回答" prop="stuAnswer">
-            <el-input type="textarea" v-model="stuform.stuAnswer" rows="4" resize="none" class="el-input"></el-input>
+            <el-input
+              type="textarea"
+              v-model="stuform.stuAnswer"
+              rows="4"
+              resize="none"
+              class="el-input"
+            ></el-input>
           </el-form-item>
           <el-form-item>
             <el-input type="hidden" v-model="stuform.stuStatus"></el-input>
@@ -83,19 +95,17 @@ export default {
     };
   },
   mounted() {
-    this.user = sessionStorage.getItem("user");
-    this.user = JSON.parse(this.user);
-    this.stuform = this.user;
-    this.loading = false
+    this.start();
   },
-  methods:{
+  methods: {
+    //表单提交
     submitForm(formName) {
+      this.loading = false;
       this.$refs[formName].validate(valid => {
         if (valid) {
           var params = {
             stuform: JSON.stringify(this.stuform)
           };
-          this.loading = false;
           student.updatemyinfo(params).then(res => {
             if (res.data.code == 200) {
               this.$message({
@@ -106,6 +116,7 @@ export default {
               });
               sessionStorage.removeItem("user");
               sessionStorage.setItem("user", JSON.stringify(this.stuform));
+              this.start();
             } else {
               this.$message({
                 showClose: true,
@@ -114,7 +125,6 @@ export default {
                 duration: 2000
               });
             }
-            this.loading = false;
           });
         } else {
           this.$message({
@@ -126,11 +136,20 @@ export default {
           return false;
         }
       });
+      this.loading = false;
     },
+    //重置
     resetForm() {
       this.stuform.stuPassword = "";
       this.stuform.stuQuestion = "";
       this.stuform.stuAnswer = "";
+    },
+    //数据初始化
+    start(){
+      this.user = sessionStorage.getItem("user");
+      this.user = JSON.parse(this.user);
+      this.stuform = this.user;
+      this.loading = false;
     }
   }
 };
@@ -138,7 +157,7 @@ export default {
 
 <style lang="scss" scoped>
 .formmain {
-  padding-top: 120px;  
+  padding-top: 120px;
   background-color: #fff;
 }
 .el-input {

@@ -43,7 +43,7 @@
         >
           <el-menu-item index="1">
             <i class="fa fa-child"></i>&nbsp;&nbsp;&nbsp;
-            <span slot="title" @click="tomyclass">我的班级</span>
+            <span slot="title" @click="tomyclass">我的学生</span>
           </el-menu-item>
           <el-menu-item index="2">
             <i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;&nbsp;
@@ -68,7 +68,7 @@
           <el-tooltip
             class="item"
             effect="dark"
-            content="我的班级"
+            content="我的学生"
             placement="right"
             transition="el-zoom-in-center"
           >

@@ -33,8 +33,8 @@
       <el-col :span="24">
         <el-col :span="20">
           <el-pagination
-            :page-size="13"
-            :pager-count="5"
+            :page-size=13
+            :pager-count=5
             layout="prev, pager, next"
             :total="total"
             @current-change="getCurrentChange"
