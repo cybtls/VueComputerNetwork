@@ -22,8 +22,8 @@
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="修改信息">修改信息</el-dropdown-item>
-            <el-dropdown-item command="退出登录">退出登录</el-dropdown-item>
+            <el-dropdown-item command="修改信息" @click.native="myinfo">修改信息</el-dropdown-item>
+            <el-dropdown-item command="退出登录" @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -164,8 +164,14 @@ export default {
       this.$router.push({ path: "/adminhome/admininfo" });
     },
     handleCommand(command) {
-        this.$message('click on item ' + command);
+      this.$message('click on item ' + command);
     },
+    logout(){
+      this.$router.push({ path: "/adminlogin" });
+    },
+    myinfo(){
+      this.$router.push({ path: "/adminhome/admininfo" });
+    }
   }
 };
 </script>
@@ -227,13 +233,13 @@ export default {
     overflow: hidden;
     background-color: #fbfdff;
     .nav-open {
-      background-color: #000000;
-      // #eef1f6
+      background-color: #eef1f6;
       flex: 0 0 250px;
       width: 250px;
     }
     .nav-close {
-      background-color: #eef1f6;
+      background-color: #000000;
+      // #eef1f6
       flex: 0 0 60px;
       width: 60px;
     }

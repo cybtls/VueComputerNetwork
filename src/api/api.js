@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 
 export const student = {
   stulogin(params) {
-    return axios.post(`${base}/student/stulogin`, params).then(res => {
+    return axios.get(`${base}/student/stulogin`, {"params":params}).then(res => {
       return res
     })
   },
@@ -28,9 +28,11 @@ export const student = {
   },
 }
 
+
+
 export const teacher = {
   teacherlogin(params) {
-    return axios.post(`${base}/teacher/teacherlogin`, params).then(res => {
+    return axios.get(`${base}/teacher/teacherlogin`, {"params":params}).then(res => {
       return res
     })
   },
@@ -71,4 +73,15 @@ export const teacher = {
   },
 }
 
-export const admin = {}
+export const admin = {
+  adminlogin(params) {
+    return axios.get(`${base}/admin/adminlogin`, {params:params}).then(res => {
+      return res
+    })
+  },
+  updatemyinfo(params) {
+    return axios.post(`${base}/admin/updatemyinfo`, params).then(res => {
+      return res
+    })
+  }
+}

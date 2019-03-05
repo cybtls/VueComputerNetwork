@@ -249,7 +249,7 @@ export default {
       }
     },
     chageclassId(){
-      console.log("选择框")
+      this.CurrentpageNum = 1;
       this.getmyclassbyid();
     },
     changesearchname(){

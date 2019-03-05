@@ -8,12 +8,15 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import VueParticles from 'vue-particles'
 
+import VueVideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
 
+
+Vue.use(VueVideoPlayer)
 
 Vue.use(VueParticles)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-
 
 
 

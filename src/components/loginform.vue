@@ -281,7 +281,7 @@ export default {
                   "user",
                   JSON.stringify(res.data.teacher)
                 );
-                this.$router.push({ path: "/teacherhome/teacherinfo" });
+                this.$router.push({ path: "/teacherhome/myclass" });
               }
             }
           });

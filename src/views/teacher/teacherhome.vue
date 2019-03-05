@@ -22,8 +22,8 @@
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>修改信息</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item command="修改信息" @click.native="myinfo">修改信息</el-dropdown-item>
+            <el-dropdown-item command="退出登录" @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -165,6 +165,12 @@ export default {
     },
     //个人信息
     toteacherinfo() {
+      this.$router.push({ path: "/teacherhome/teacherinfo" });
+    },
+    logout() {
+      this.$router.push({ path: "/login" });
+    },
+    myinfo() {
       this.$router.push({ path: "/teacherhome/teacherinfo" });
     }
   }

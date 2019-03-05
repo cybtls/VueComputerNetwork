@@ -145,7 +145,7 @@ export default {
       this.stuform.stuAnswer = "";
     },
     //数据初始化
-    start(){
+    start(){      
       this.user = sessionStorage.getItem("user");
       this.user = JSON.parse(this.user);
       this.stuform = this.user;

@@ -6,6 +6,7 @@ import error from '../views/404.vue'
 import stuhome from '../views/student/stuhome.vue'
 import adminhome from '../views/admin/adminhome.vue'
 import teacherhome from '../views/teacher/teacherhome.vue'
+import adminlogin from '../views/adminlogin.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -18,10 +19,16 @@ export default new Router({
       component:home,
     },
     {
-      //登录
+      //学生、教师登录
       path:'/login',
       name:'login',
       component:login,
+    },
+    {
+      //管理员登录
+      path:'/adminlogin',
+      name:'adminlogin',
+      component:adminlogin,
     },
     {
       //学生首页
