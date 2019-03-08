@@ -159,4 +159,10 @@ export const admin = {
       return res
     })
   },
+  addteacher(params) {
+    return axios.post(`${base}/admin/addteacher`, params).then(res => {
+      return res
+    })
+  },
+  
 }

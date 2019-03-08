@@ -132,10 +132,54 @@
       </el-form>
     </el-dialog>
 
-
-
-
-    
+    <!-- 添加教师:before-close="handleClose" -->
+    <el-dialog title="添加教师" :visible.sync="showaddteacher" width="25%">
+      <el-form
+        :model="addteacherinfo"
+        status-icon
+        :rules="teacherformrule"
+        ref="addteacherinfo"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="姓名" prop="teacherName">
+          <el-input type="text" v-model="addteacherinfo.teacherName" placeholder="请输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="账号" prop="teacherAccount">
+          <el-input type="text" v-model="addteacherinfo.teacherAccount" placeholder="请输入账号"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="teacherPassword">
+          <el-input type="text" v-model="addteacherinfo.teacherPassword" placeholder="请输入密码"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="teacherEmail">
+          <el-input type="text" v-model="addteacherinfo.teacherEmail" placeholder="请输入邮箱"></el-input>
+        </el-form-item>
+        <el-form-item label="密保问题" prop="teacherQuestion">
+          <el-input
+            type="textarea"
+            v-model="addteacherinfo.teacherQuestion"
+            rows="4"
+            resize="none"
+            class="el-input"
+            placeholder="请输入密保问题"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="密保回答" prop="teacherAnswer">
+          <el-input
+            type="textarea"
+            v-model="addteacherinfo.teacherAnswer"
+            rows="4"
+            resize="none"
+            class="el-input"
+            placeholder="请输入密保回答"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-edit" @click="submitForm('addteacherinfo')">提交</el-button>
+          <el-button icon="el-icon-circle-close-outline" @click="resetForm('addteacherinfo')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -168,6 +212,10 @@ export default {
         teacherEmail: [
           { required: true, message: "邮箱不能为空", trigger: "blur" },
           { type: "email", message: "请输入正确的邮箱地址", trigger: "blur" }
+        ],
+        teacherAccount: [
+          { required: true, message: "账号不能为空", trigger: "blur" },
+          { min: 6, max: 12, message: "长度在 6 到 12 个字符" }
         ]
       },
       searchteachername: "",
@@ -180,8 +228,54 @@ export default {
     this.getteacher();
   },
   methods: {
-    addteacher(row) {
+    addteacher() {
       this.showaddteacher = true;
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          var params = {
+            addteacherinfo: JSON.stringify(this.addteacherinfo)
+          };
+          admin.addteacher(params).then(res => {
+            if (res.data.code == 201) {
+              this.$message({
+                showClose: true,
+                message: "账号已存在",
+                type: "warning",
+                duration: 2000
+              });
+            } else if (res.data.code == 400) {
+              this.$message({
+                showClose: true,
+                message: "添加失败，请联系程序员",
+                type: "error",
+                duration: 2000
+              });
+            } else {
+              this.$message({
+                showClose: true,
+                message: "添加成功",
+                type: "success",
+                duration: 2000
+              });
+              this.showaddteacher = false;
+              this.getteacher();
+            }
+          });
+        } else {
+          this.$message({
+            showClose: true,
+            message: "请按要求填写",
+            type: "error",
+            duration: 2000
+          });
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     },
     editteacher(row) {
       this.showeditteacher = true;
@@ -190,8 +284,8 @@ export default {
     submiteditForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var time = this.editteacherinfo.teacherCreatedate
-          this.editteacherinfo.teacherCreatedate = (new Date(time)).valueOf();
+          var time = this.editteacherinfo.teacherCreatedate;
+          this.editteacherinfo.teacherCreatedate = new Date(time).valueOf();
           var params = {
             teacherinfo: JSON.stringify(this.editteacherinfo)
           };
@@ -315,9 +409,7 @@ export default {
           ? "0" + (date.getMonth() + 1)
           : date.getMonth() + 1) + "-";
       var D =
-        (date.getDate() < 10
-          ? "0" + (date.getDate())
-          : date.getDate()) + " ";
+        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
       // var D = date.getDate() + " ";
       // var h = date.getHours() + ':';
       // var m = date.getMinutes() + ':';
@@ -326,7 +418,7 @@ export default {
     },
     add0(m) {
       return m < 10 ? "0" + m : m;
-    },
+    }
   }
 };
 </script>

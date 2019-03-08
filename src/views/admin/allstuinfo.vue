@@ -197,6 +197,8 @@
             v-model="editstuinfo.stuClass.classId"
             placeholder="请选择班级"
             @change="changeclassid"
+            class="left"
+            style="width:220px;"
           >
             <el-option
               v-for="item in classlist"
