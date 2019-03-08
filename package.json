@@ -14,6 +14,7 @@
     "element-ui": "^2.5.4",
     "font-awesome": "^4.7.0",
     "videojs-contrib-hls": "^5.15.0",
+    "videojs-flash": "^2.2.0",
     "vue": "^2.5.2",
     "vue-identify-network": "^1.0.4",
     "vue-router": "^3.0.1",

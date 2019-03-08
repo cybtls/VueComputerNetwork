@@ -164,5 +164,29 @@ export const admin = {
       return res
     })
   },
+  getttc(params) {
+    return axios.get(`${base}/admin/getttc`, {params:params}).then(res => {
+      return res
+    })
+  },
+  getteacherlist(params) {
+    return axios.get(`${base}/admin/getteacherlist`, {params:params}).then(res => {
+      return res
+    })
+  },
+  addttc(params) {
+    return axios.post(`${base}/admin/addttc`, params).then(res => {
+      return res
+    })
+  },
+  delttc(params) {
+    return axios.get(`${base}/admin/delttc`, {params:params}).then(res => {
+      return res
+    })
+  },
+}
+
+
+export const resources = {
   
 }

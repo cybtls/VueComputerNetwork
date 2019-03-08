@@ -10,7 +10,7 @@ import VueParticles from 'vue-particles'
 
 import VueVideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
-
+import 'videojs-flash'
 
 Vue.use(VueVideoPlayer)
 

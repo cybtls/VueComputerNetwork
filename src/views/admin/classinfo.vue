@@ -2,8 +2,10 @@
   <div style="background-color: #fff;">
     <el-row>
       <el-col :span="24" class="search">
-        <el-col :span="10">&nbsp;</el-col>
-        <el-col :span="3">&nbsp;</el-col>
+        <el-col :span="11">&nbsp;</el-col>
+        <el-col :span="3">
+          <el-button class="searchbutton" @click="showttc0">教师与班级管理</el-button>
+        </el-col>
         <el-col :span="6" class="searchinput">
           <el-input
             v-model="classname"
@@ -23,7 +25,7 @@
       </el-col>
 
       <el-col :span="24">
-        <el-col :span="3">&nbsp;</el-col>
+        <el-col :span="4">&nbsp;</el-col>
         <el-col :span="16">
           <el-table :data="classinfo" border style="width:100%" stripe :sortable="true">
             <el-table-column type="index" label="序号" width="100px"></el-table-column>
@@ -44,7 +46,7 @@
             </el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="5"></el-col>
+        <el-col :span="4"></el-col>
       </el-col>
 
       <el-col :span="24">
@@ -80,6 +82,50 @@
         <el-button type="primary" @click="addclass">确 定</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog title="教师班级关系" :visible.sync="ttc0" width="30%">
+      <el-table :data="teachertoclass" border style="width: 100%" height="500">
+        <el-table-column prop="ttcId" label="ID"></el-table-column>
+        <el-table-column prop="teacher.teacherName" label="教师姓名"></el-table-column>
+        <el-table-column prop="aClass.className" label="管理班级"></el-table-column>
+        <el-table-column fixed="right" label="操作">
+          <template slot-scope="scope">
+            <el-button @click="delttc(scope.row)" type="danger" size="small">
+              删除
+              <i class="el-icon-delete el-icon--right"></i>
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <el-dialog width="20%" title="添加教师班级关系" :visible.sync="ttc1" append-to-body>
+        <el-col :span="24">
+          <el-col :span="12">
+            <el-select v-model="ttcteacher" placeholder="请选择老师" @change="changeteacherid">
+              <el-option
+                v-for="item in teacherlist"
+                :key="item.teacherId"
+                :label="item.teacherName"
+                :value="item.teacherId"
+              ></el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="12">
+            <el-input placeholder="请输入班级名称" v-model="ttcclassname"></el-input>
+          </el-col>
+        </el-col>
+
+        <div slot="footer" class="dialog-footer" style="margin-top:10px;">
+          <el-button @click="ttc1 = false">取 消</el-button>
+          <el-button type="primary" @click="addttc">确定</el-button>
+        </div>
+      </el-dialog>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="ttc0 = false">取 消</el-button>
+        <el-button type="primary" @click="getteacherlist">添加关系</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -90,6 +136,8 @@ export default {
     return {
       showclassname: false,
       showaddclass: false,
+      ttc0: false,
+      ttc1: false,
       newclassinfo: {},
       oldclassname: "",
       classname: "",
@@ -97,7 +145,12 @@ export default {
       total: 1,
       user: {},
       CurrentpageNum: 1,
-      addclassname: ""
+      addclassname: "",
+      teachertoclass: [],
+      teacherlist: {},
+      ttcteacher: "",
+      ttcteacherid: "",
+      ttcclassname: ""
     };
   },
   mounted() {
@@ -186,7 +239,7 @@ export default {
                   message: "添加成功!"
                 });
                 this.getclasslist();
-                this.addclassname = '';
+                this.addclassname = "";
                 this.showaddclass = false;
               } else if (res.data.code == 201) {
                 this.$message({
@@ -263,6 +316,114 @@ export default {
     },
     showaddclassform() {
       this.showaddclass = true;
+    },
+    showttc0() {
+      this.ttc0 = true;
+      admin.getttc().then(res => {
+        if (res.data.code == 200) {
+          this.teachertoclass = res.data.teachertoClass;
+        } else {
+          this.$message({
+            type: "error",
+            message: "出错了，请稍后重新尝试"
+          });
+        }
+      });
+    },
+    showttc1() {
+      this.ttc1 = true;
+    },
+    delttc(row) {
+      this.$confirm("此操作将永久删除该关系, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          var params = {
+            ttcid: row.ttcId
+          };
+          admin.delttc(params).then(res => {
+            if (res.data.code == 200) {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+              this.showttc0();
+            } else {
+              this.$message({
+                type: "error",
+                message: "删除失败，有事找程序员"
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    getteacherlist() {
+      admin.getteacherlist().then(res => {
+        if (res.data.code == 200) {
+          console.log(res);
+          this.teacherlist = res.data.teacherlist;
+          this.ttc1 = true;
+        } else {
+          this.$message({
+            type: "error",
+            message: "获取失败，请联系程序员"
+          });
+        }
+      });
+    },
+    changeteacherid(value) {
+      this.ttcteacherid = value;
+    },
+    addttc() {
+      if (
+        this.ttcteacherid == null ||
+        this.ttcclassname == null ||
+        this.ttcclassname.length == 0 ||
+        this.ttcteacherid.length == 0
+      ) {
+        this.$message({
+          type: "info",
+          message: "请正确输入"
+        });
+      } else {
+        var params = {
+          ttcteacherid: this.ttcteacherid,
+          ttcclassname: this.ttcclassname
+        };
+        admin.addttc(params).then(res => {
+          if (res.data.code == 204) {
+            this.$message({
+              type: "info",
+              message: "该班级不存在，请正确输入"
+            });
+          } else if (res.data.code == 201) {
+            this.$message({
+              type: "info",
+              message: "该关系已经存在，请重新输入"
+            });
+          } else if (res.data.code == 400) {
+            this.$message({
+              type: "error",
+              message: "添加失败，请杀个程序员祭天"
+            });
+          } else {
+            this.$message({
+              type: "success",
+              message: "添加成功"
+            });
+            this.ttc1 = false;
+            this.showttc0();
+          }
+        });
+      }
     }
   }
 };

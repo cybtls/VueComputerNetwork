@@ -128,7 +128,10 @@
           <router-view/>
         </transition>
       </el-col>
+
+      
     </el-col>
+
   </el-row>
 </template>
 
@@ -254,5 +257,12 @@ export default {
   .el-submenu .el-menu-item {
     min-width: 0px !important;
   }
+}
+.footer{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:100px;
+  border-color: rgba(238, 241, 146, 0.3);
 }
 </style>
