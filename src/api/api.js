@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 
 export const student = {
   stulogin(params) {
-    return axios.get(`${base}/student/stulogin`, {"params":params}).then(res => {
+    return axios.get(`${base}/student/stulogin`, {params:params}).then(res => {
       return res
     })
   },
@@ -32,7 +32,7 @@ export const student = {
 
 export const teacher = {
   teacherlogin(params) {
-    return axios.get(`${base}/teacher/teacherlogin`, {"params":params}).then(res => {
+    return axios.get(`${base}/teacher/teacherlogin`, {params:params}).then(res => {
       return res
     })
   },
@@ -59,7 +59,7 @@ export const teacher = {
       return res
     })
   },
-  // 通过班级名来查询班级信息
+  // 改变学生状态
   chagestatus(params) {
     return axios.post(`${base}/teacher/chagestatus`, params).then(res => {
       return res
@@ -83,5 +83,80 @@ export const admin = {
     return axios.post(`${base}/admin/updatemyinfo`, params).then(res => {
       return res
     })
-  }
+  },
+  getallclass(params) {
+    return axios.get(`${base}/admin/getallclass`,{params:params}).then(res => {
+      return res
+    })
+  },
+  getclasslist(params) {
+    return axios.post(`${base}/admin/getclasslist`,params).then(res => {
+      return res
+    })
+  },
+  updateclassname(params) {
+    return axios.get(`${base}/admin/updateclassname`,{params:params}).then(res => {
+      return res
+    })
+  },
+  delclass(params) {
+    return axios.get(`${base}/admin/delclass`,{params:params}).then(res => {
+      return res
+    })
+  },
+  addclass(params) {
+    return axios.get(`${base}/admin/addclass`,{params:params}).then(res => {
+      return res
+    })
+  },
+  getallstudent(params) {
+    return axios.get(`${base}/admin/getallstudent`,{params:params}).then(res => {
+      return res
+    })
+  },
+  getstudentbyclassname(params) {
+    return axios.get(`${base}/admin/getstudentbyclassname`,{params:params}).then(res => {
+      return res
+    })
+  },
+  getstudentbystudentname(params) {
+    return axios.get(`${base}/admin/getstudentbystudentname`,{params:params}).then(res => {
+      return res
+    })
+  },
+  // delstudent(params) {
+  //   return axios.get(`${base}/admin/delstudent`,{params:params}).then(res => {
+  //     return res
+  //   })
+  // },
+  chagestatus(params) {
+    return axios.post(`${base}/admin/chagestatus`, params).then(res => {
+      return res
+    })
+  },
+  addstudent(params) {
+    return axios.post(`${base}/admin/addstudent`, params).then(res => {
+      return res
+    })
+  },
+  editstudent(params) {
+    return axios.post(`${base}/admin/editstudent`, params).then(res => {
+      return res
+    })
+  },
+  getteacher(params) {
+    return axios.post(`${base}/admin/getteacher`, params).then(res => {
+      return res
+    })
+  },
+  changeteacherstatus(params) {
+    return axios.post(`${base}/admin/changeteacherstatus`, params).then(res => {
+      return res
+    })
+  },
+  editteacher(params) {
+    return axios.post(`${base}/admin/editteacher`, params).then(res => {
+      return res
+    })
+  },
 }

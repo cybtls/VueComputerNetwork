@@ -77,7 +77,7 @@ export default {
             }else{
                 sessionStorage.setItem("role", "admin");
                 sessionStorage.setItem("user", JSON.stringify(res.data.admin));
-                this.$router.push({ path: "/adminhome/admininfo" });
+                this.$router.push({ path: "/adminhome/classinfo" });
             }
           });
         } else {

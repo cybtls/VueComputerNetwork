@@ -51,7 +51,7 @@
               <template slot-scope="scope">
                 <el-button @click="chagestatusto1(scope.row)" type="primary" size="small">启用</el-button>
                 <el-button @click="chagestatusto0(scope.row)" type="info" size="small">禁用</el-button>
-                <el-button @click="delstudent(scope.row)" type="danger" size="small">删除</el-button>
+                <!-- <el-button @click="delstudent(scope.row)" type="danger" size="small">删除</el-button> -->
               </template>
             </el-table-column>
           </el-table>
@@ -153,42 +153,42 @@ export default {
       });
     },
     //删除学生
-    delstudent(row) {
-      this.$confirm("此操作将永久删除该学生, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          var params = {
-            stuid: row.stuId
-          };
-          teacher.delstudent(params).then(res => {
-            if (res.data.code == 200) {
-              this.getmyclassbyname();
-              this.$message({
-                type: "success",
-                message: "删除成功!"
-              });
-            } else {
-              this.$message({
-                type: "error",
-                message: "删除失败，请联系管理员!"
-              });
-            }
-          });
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "取消删除"
-          });
-        });
-    },
+    // delstudent(row) {
+    //   this.$confirm("此操作将永久删除该学生, 是否继续?", "提示", {
+    //     confirmButtonText: "确定",
+    //     cancelButtonText: "取消",
+    //     type: "warning"
+    //   })
+    //     .then(() => {
+    //       var params = {
+    //         stuid: row.stuId
+    //       };
+    //       teacher.delstudent(params).then(res => {
+    //         if (res.data.code == 200) {
+    //           this.getmyclassbyname();
+    //           this.$message({
+    //             type: "success",
+    //             message: "删除成功!"
+    //           });
+    //         } else {
+    //           this.$message({
+    //             type: "error",
+    //             message: "删除失败，请联系管理员!"
+    //           });
+    //         }
+    //       });
+    //       this.$message({
+    //         type: "success",
+    //         message: "删除成功!"
+    //       });
+    //     })
+    //     .catch(() => {
+    //       this.$message({
+    //         type: "info",
+    //         message: "取消删除"
+    //       });
+    //     });
+    // },
     //改变学生状态为1 即是正常状态
     chagestatusto1(row) {
       row.stuStatus = 1;
