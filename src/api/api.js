@@ -188,5 +188,27 @@ export const admin = {
 
 
 export const resources = {
-  
+  getresources(params) {
+    return axios.post(`${base}/resources/getresources`, params).then(res => {
+      return res
+    })
+  },
+}
+
+export const category = {
+  getallcategory(params) {
+    return axios.get(`${base}/category/getallcategory`, {params:params}).then(res => {
+      return res
+    })
+  },
+  addcategory(params) {
+    return axios.get(`${base}/category/addcategory`,  {params:params}).then(res => {
+      return res
+    })
+  },
+  delcategory(params) {
+    return axios.get(`${base}/category/delcategory`, {params:params}).then(res => {
+      return res
+    })
+  },
 }

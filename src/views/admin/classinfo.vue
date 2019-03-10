@@ -83,6 +83,8 @@
       </span>
     </el-dialog>
 
+
+    <!-- 教师管理班级关系 -->
     <el-dialog title="教师班级关系" :visible.sync="ttc0" width="30%">
       <el-table :data="teachertoclass" border style="width: 100%" height="500">
         <el-table-column prop="ttcId" label="ID"></el-table-column>

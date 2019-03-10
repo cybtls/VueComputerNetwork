@@ -4,7 +4,6 @@
       <!-- 搜索栏 -->
       <el-col :span="24" class="search">
         <el-col :span="13">
-        
           <el-select v-model="categoryid" placeholder="请选择" @change="chagecategoryid">
             <el-option
               v-for="item in categorylist"
@@ -13,7 +12,11 @@
               :value="item.categoryId"
             ></el-option>
           </el-select>
-          <el-button  @click="addcategory" class="el-icon-circle-plus-outline" type="info">添加类别</el-button>
+          <el-button
+            @click="showeditcategoryinfo"
+            class="el-icon-circle-plus-outline"
+            type="info"
+          >类别管理</el-button>
         </el-col>
         <el-col :span="1">&nbsp;</el-col>
         <el-col :span="6" class="searchinput">
@@ -24,7 +27,7 @@
             @keyup.enter.native="getresourcesbyname"
           ></el-input>
           <el-button class="searchbutton" icon="el-icon-search" circle @click="getresourcesbyname"></el-button>
-          <el-button round @click="uploadfile" class="el-icon-upload" type="primary">上传文件</el-button>
+          <el-button round @click="showuploadinfo = true" class="el-icon-upload" type="primary">上传文件</el-button>
         </el-col>
       </el-col>
 
@@ -66,23 +69,111 @@
         <el-col :span="4"></el-col>
       </el-col>
     </el-row>
+
+    <el-dialog title="类别管理" :visible.sync="showeditcategory" width="30%">
+      <el-table :data="categorylist" border style="width: 100%" height="500">
+        <el-table-column prop="categoryId" label="ID"></el-table-column>
+        <el-table-column prop="categoryName" label="类别名称"></el-table-column>
+        <el-table-column fixed="right" label="操作">
+          <template slot-scope="scope">
+            <el-button @click="delcategory(scope.row)" type="danger" size="small">
+              删除
+              <i class="el-icon-delete el-icon--right"></i>
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <el-dialog width="25%" title="添加类别" :visible.sync="showaddcategory" append-to-body>
+        <el-input v-model="categoryname" placeholder="请输入类别名称"></el-input>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="showaddcategory = false">取 消</el-button>
+          <el-button type="primary" @click="addcategory">确定</el-button>
+        </div>
+      </el-dialog>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="showeditcategory = false">取 消</el-button>
+        <el-button type="primary" @click="showaddcategory = true">添加新类别</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog width="20%" title="上传文件" :visible.sync="showuploadinfo">
+      <el-col :span="24">
+        <el-col :span="12">
+          <el-select
+            v-model="filedata.filecategoryid"
+            placeholder="请选择类别"
+            @change="changeuploadfilecategoryid"
+          >
+            <el-option
+              v-for="item in categorylist"
+              :key="item.categoryId"
+              :label="item.categoryName"
+              :value="item.categoryId"
+            ></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="12">
+          <el-input placeholder="请输入资源名称" v-model="filedata.filename"></el-input>
+        </el-col>
+        <el-col :span="24" style="margin:10px;">
+          <el-upload
+            ref="upload"
+            class="upload-demo"
+            :action="action"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :before-upload="beforeUpload"
+            :on-success="success"
+            :on-error="error"
+            :limit="1"
+            name="file"
+            :data="filedata"
+            :on-exceed="handleExceed"
+            accept=".PDF, .txt, .doc, .wps, .md"
+          >
+            <el-button size="small" type="primary">选择文件</el-button>
+          </el-upload>
+        </el-col>
+      </el-col>
+
+      <div slot="footer" class="dialog-footer" style="margin-top:50px;height:10px;">
+        <!-- <el-button @click="showuploadinfo = false">取 消</el-button> -->
+        <!-- <el-button type="primary" @click="uploadfile">确定</el-button> -->
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { category, resources } from "../../api/api.js";
 export default {
   data() {
     return {
+      action:"http://localhost:8080/resources/uploaddocument",
       resourcename: "",
       resorceslist: [],
       categorylist: [],
+      categoryname: "",
       categoryid: "",
       loading: false,
       CurrentpageNum: 1,
-      total: 20
+      total: 20,
+      showaddcategory: false,
+      showeditcategory: false,
+      showuploadinfo: false,
+      filedata: {
+        filecategoryid: "",
+        filename: "",
+        uploader:""
+      }
     };
   },
-  mounted() {},
+  mounted() {
+    this.getallcategory();
+  },
   methods: {
     getresourcesbyname() {
       console.log(this.resourcename);
@@ -93,12 +184,167 @@ export default {
     downfile() {
       console.log("down");
     },
-    uploadfile() {},
     delfile() {},
     chagecategoryid() {
       console.log(this.categoryid);
+      var params = {
+        categoryid : this.categoryid
+      }
+      if(this.resourcename !=null && this.resourcename.length > 0){
+        params.resourcename = this.resourcename
+      }
     },
-    addcategory() {}
+    changeuploadfilecategoryid(value) {
+      console.log(this.uploadfilecategoryid);
+      this.uploadfilecategoryid = value;
+    },
+    showeditcategoryinfo() {
+      this.showeditcategory = true;
+    },
+    addcategory() {
+      if (this.categoryname == null || this.categoryname.length == 0) {
+        this.$message({
+          type: "warning",
+          message: "名称不规范，请重新输入"
+        });
+      } else {
+        var params = {
+          categoryname: this.categoryname
+        };
+        category.addcategory(params).then(res => {
+          if (res.data.code == 201) {
+            this.$message({
+              type: "info",
+              message: "该类别已经存在"
+            });
+          } else if (res.data.code == 400) {
+            this.$message({
+              type: "error",
+              message: "添加失败，找人去"
+            });
+          } else {
+            this.$message({
+              type: "success",
+              message: "添加成功！"
+            });
+            this.getallcategory();
+            this.showaddcategory = false;
+          }
+        });
+      }
+    },
+    delcategory(row) {
+      this.$confirm(
+        "此操作将永久删除该类别及其目录下的资源, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }
+      )
+        .then(() => {
+          var params = {
+            categoryid: row.categoryId
+          };
+          category.delcategory(params).then(res => {
+            if (res.data.code == 200) {
+              this.$message({
+                type: "success",
+                message: "删除成功"
+              });
+              this.getallcategory();
+            } else {
+              this.$message({
+                type: "error",
+                message: "删除失败，还是得杀个程序员祭天"
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    getallcategory() {
+      category.getallcategory().then(res => {
+        if (res.data.code == 200) {
+          this.categorylist = res.data.categories;
+        } else {
+          this.$message({
+            type: "error",
+            message: "加载出错啦，找特仑苏去"
+          });
+        }
+      });
+      var user = JSON.parse(sessionStorage.getItem("user"))
+      this.filedata.uploader = user.teacherName
+    },
+    getresources() {
+      var params;
+      if (this.resourcename != null && this.resourcename.length > 0) {
+        params.resourcename = this.resourcename;
+      }
+      if(this.categoryid != null && this.categoryid > 0){
+        params.categoryid = this.categoryid;
+      }
+      resources.getresources(params).then(res => {
+        console.log(res)
+      });
+    },
+    handleRemove(file, fileList) {
+      // console.log(file, fileList);
+    },
+    handlePreview(file) {
+      // console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`只能选择 1 个文件`);
+    },
+    beforeRemove(file, fileList) {
+      // return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    beforeUpload(file) {
+      if (
+        this.filedata.filecategoryid == null ||
+        this.filedata.filecategoryid.length == 0 ||
+        this.filedata.filename == null ||
+        this.filedata.filename.length == 0
+      ) {
+        this.$message({
+          type: "warning",
+          message: "请完善上面的内容"
+        });
+        return false;
+      }
+      var maxsize = 1024 * 1024 * 5;
+      if (file.size > maxsize) {
+        this.$message({
+          type: "warning",
+          message: "文件过大，无法上传"
+        });
+        return false;
+      }
+    },
+    success() {
+      this.$message({
+        type: "success",
+        message: "上传成功"
+      });
+      this.filedata.filecategoryid = "";
+      this.filedata.filename = "";
+      this.showuploadinfo = false;
+      this.$refs.upload.clearFiles();
+    },
+    error() {
+      this.$message({
+        type: "error",
+        message: "上传失败"
+      });
+    }
   }
 };
 </script>
