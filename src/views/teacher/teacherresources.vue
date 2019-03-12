@@ -36,16 +36,16 @@
         <el-col :span="4">&nbsp;</el-col>
         <el-col :span="16">
           <el-table :data="resorceslist" border style="width:100%" v-loading="loading" stripe>
-            <el-table-column prop="resId" label="资源ID"></el-table-column>
+            <el-table-column prop="resId" label="资源ID" width="100px;"></el-table-column>
             <el-table-column prop="resName" label="资源名称"></el-table-column>
-            <el-table-column prop="resCategoryid" label="资源类别"></el-table-column>
-            <el-table-column prop="resDownnum" label="下载数量"></el-table-column>
+            <el-table-column prop="category.categoryName" label="资源类别"></el-table-column>
+            <el-table-column prop="resDownnum" label="下载数量" width="100px;"></el-table-column>
             <el-table-column prop="resLastuploader" label="上传者"></el-table-column>
             <el-table-column prop="resLastmodification" label="最后修改时间"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button @click="downfile(scope.row)" type="primary" size="small">下载</el-button>
-                <el-button @click="delfile(scope.row)" type="error" size="small">删除</el-button>
+                <el-button @click="downresources(scope.row)" type="primary" size="small">下载</el-button>
+                <el-button @click="delresources(scope.row)" type="error" size="small">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -58,7 +58,7 @@
         <el-col :span="20">
           <el-pagination
             :current-page="CurrentpageNum"
-            :page-size="13"
+            :page-size="10"
             :pager-count="5"
             layout="prev, pager, next"
             :total="total"
@@ -152,7 +152,7 @@ import { category, resources } from "../../api/api.js";
 export default {
   data() {
     return {
-      action:"http://localhost:8080/resources/uploaddocument",
+      action: "http://localhost:8080/resources/uploaddocument",
       resourcename: "",
       resorceslist: [],
       categorylist: [],
@@ -167,32 +167,78 @@ export default {
       filedata: {
         filecategoryid: "",
         filename: "",
-        uploader:""
+        uploader: ""
       }
     };
   },
   mounted() {
     this.getallcategory();
+    this.getresources();
   },
   methods: {
     getresourcesbyname() {
-      console.log(this.resourcename);
+      this.getresources();
+      this.categoryid = "";
+      this.resourcename = "";
     },
     getCurrentChange(value) {
       this.CurrentpageNum = value;
+      this.getresources();
     },
-    downfile() {
-      console.log("down");
-    },
-    delfile() {},
-    chagecategoryid() {
-      console.log(this.categoryid);
+    downresources(row) {
       var params = {
-        categoryid : this.categoryid
-      }
-      if(this.resourcename !=null && this.resourcename.length > 0){
-        params.resourcename = this.resourcename
-      }
+        resid: row.resId
+      };
+      resources.downresources(params).then(res => {
+        // console.log(res)
+        var blob = new Blob([res.data]);
+        var downloadElement = document.createElement("a");
+        var href = window.URL.createObjectURL(blob); //创建下载的链接
+        downloadElement.href = href;
+        downloadElement.download = row.resName; //下载后文件名
+        document.body.appendChild(downloadElement);
+        downloadElement.click(); //点击下载
+        document.body.removeChild(downloadElement); //下载完成移除元素
+        window.URL.revokeObjectURL(href); //释放掉blob对象
+      });
+    },
+    delresources(row) {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          var params = {
+            resid: row.resId
+          };
+          resources.delresources(params).then(res => {
+            console.log(res);
+            if (res.data.code == 200) {
+              this.$message({
+                type: "success",
+                message: "删除成功"
+              });
+              this.categoryid = "";
+              this.resourcename = "";
+              this.getresources();
+            } else {
+              this.$message({
+                type: "error",
+                message: "删除失败,哎"
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    chagecategoryid() {
+      this.getresources();
     },
     changeuploadfilecategoryid(value) {
       console.log(this.uploadfilecategoryid);
@@ -280,19 +326,29 @@ export default {
           });
         }
       });
-      var user = JSON.parse(sessionStorage.getItem("user"))
-      this.filedata.uploader = user.teacherName
+      var user = JSON.parse(sessionStorage.getItem("user"));
+      this.filedata.uploader = user.teacherName;
     },
     getresources() {
-      var params;
+      var params = {
+        CurrentpageNum: this.CurrentpageNum
+      };
       if (this.resourcename != null && this.resourcename.length > 0) {
         params.resourcename = this.resourcename;
       }
-      if(this.categoryid != null && this.categoryid > 0){
+      if (this.categoryid != null && this.categoryid > 0) {
         params.categoryid = this.categoryid;
       }
       resources.getresources(params).then(res => {
-        console.log(res)
+        if (res.data.code == 204) {
+          this.$message({
+            type: "info",
+            message: "查询不到相关资源"
+          });
+        } else {
+          this.resorceslist = res.data.resources;
+          this.total = res.data.count;
+        }
       });
     },
     handleRemove(file, fileList) {
@@ -308,6 +364,7 @@ export default {
       // return this.$confirm(`确定移除 ${file.name}？`);
     },
     beforeUpload(file) {
+      console.log(this.filedata)
       if (
         this.filedata.filecategoryid == null ||
         this.filedata.filecategoryid.length == 0 ||
@@ -338,8 +395,9 @@ export default {
       this.filedata.filename = "";
       this.showuploadinfo = false;
       this.$refs.upload.clearFiles();
+      this.getresources();
     },
-    error() {
+    error(err, file, fileList) {
       this.$message({
         type: "error",
         message: "上传失败"

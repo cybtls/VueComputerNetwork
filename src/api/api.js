@@ -193,6 +193,16 @@ export const resources = {
       return res
     })
   },
+  delresources(params) {
+    return axios.get(`${base}/resources/delresources`, {params:params}).then(res => {
+      return res
+    })
+  },
+  downresources(params) {
+    return axios.post(`${base}/resources/downresources`, params,{responseType: 'blob'}).then(res => {
+      return res
+    })
+  },
 }
 
 export const category = {
