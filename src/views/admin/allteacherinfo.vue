@@ -23,15 +23,15 @@
       </el-col>
 
       <el-col :span="24">
-        <el-col :span="4">&nbsp;</el-col>
-        <el-col :span="16">
+        <el-col :span="3">&nbsp;</el-col>
+        <el-col :span="17">
           <el-table :data="teacherinfo" border style="width:100%" stripe>
             <el-table-column prop="teacherId" label="老师id" width="80px"></el-table-column>
             <el-table-column prop="teacherAccount" label="账号"></el-table-column>
             <el-table-column prop="teacherName" label="姓名"></el-table-column>
             <el-table-column prop="teacherEmail" label="邮箱"></el-table-column>
             <el-table-column prop="teacherCreatedate" label="创建日期"></el-table-column>
-            <el-table-column prop="teacherStatus" label="状态">
+            <el-table-column prop="teacherStatus" label="状态" width="200px">
               <template slot-scope="scope">
                 <el-switch
                   v-model="scope.row.teacherStatus"

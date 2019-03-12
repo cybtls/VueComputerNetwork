@@ -9,7 +9,7 @@
   >
     <h3 class="title">管理员登录</h3>
     <el-form-item prop="adminaccount">
-      <el-input type="text" v-model="ruleForm.adminaccount" placeholder="请输入账号"></el-input>
+      <el-input type="text" v-model="ruleForm.adminaccount" placeholder="请输入账号" autofocus="true"></el-input>
     </el-form-item>
     <el-form-item prop="adminpassword">
       <el-input type="password" v-model="ruleForm.adminpassword" placeholder="请输入密码"></el-input>

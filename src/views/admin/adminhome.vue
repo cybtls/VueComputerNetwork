@@ -19,6 +19,7 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
+            欢迎你，{{user.adminName}}
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -34,11 +35,11 @@
       <!-- 侧边栏  展开时-->
       <aside :class="navshow?'nav-open':'nav-close'">
         <el-menu
-          default-active="2"
+          default-active="1"
           class="el-menu-vertical-demo"
           background-color="#eef1f6"
           text-color="#48576a"
-          active-text-color="#48576a"
+          active-text-color="#409eff"
           v-show="navshow"
         >
           <el-menu-item index="1">
@@ -136,15 +137,28 @@
 <script>
 import logo from "../../components/logo.vue";
 export default {
+  created() {
+    window.addEventListener("setItem", () => {
+      this.user = JSON.parse(sessionStorage.getItem("user"));
+    });
+  },
   components: {
     logo
   },
   data() {
     return {
-      navshow: true
+      navshow: true,
+      user: {}
     };
   },
+  mounted() {
+    this.getuser();
+  },
   methods: {
+    getuser() {
+      this.user = JSON.parse(sessionStorage.getItem("user"));
+      console.log(this.user);
+    },
     changenav() {
       this.navshow = !this.navshow;
     },
@@ -164,12 +178,12 @@ export default {
       this.$router.push({ path: "/adminhome/admininfo" });
     },
     handleCommand(command) {
-      this.$message('click on item ' + command);
+      this.$message("click on item " + command);
     },
-    logout(){
+    logout() {
       this.$router.push({ path: "/adminlogin" });
     },
-    myinfo(){
+    myinfo() {
       this.$router.push({ path: "/adminhome/admininfo" });
     }
   }

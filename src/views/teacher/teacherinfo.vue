@@ -124,9 +124,11 @@ export default {
                 type: "success",
                 duration: 2000
               });
-              sessionStorage.removeItem("user");
-              sessionStorage.setItem("user", JSON.stringify(this.teacherform));
+              // sessionStorage.removeItem("user");
+              // sessionStorage.setItem("user", JSON.stringify(this.teacherform));
+              this.resetSetItem("user", JSON.stringify(this.teacherform));
               this.start();
+              // this.$router.go(0)
             } else {
               this.$message({
                 showClose: true,

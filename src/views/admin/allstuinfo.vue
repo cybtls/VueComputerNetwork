@@ -49,14 +49,14 @@
       </el-col>
 
       <el-col :span="24">
-        <el-col :span="4">&nbsp;</el-col>
-        <el-col :span="16">
+        <el-col :span="3">&nbsp;</el-col>
+        <el-col :span="17">
           <el-table :data="stuinfo" border style="width:100%" stripe>
             <el-table-column prop="stuClass.classId" label="班级号"></el-table-column>
             <el-table-column prop="stuClass.className" label="班级"></el-table-column>
             <el-table-column prop="stuAccount" label="学号"></el-table-column>
             <el-table-column prop="stuName" label="姓名"></el-table-column>
-            <el-table-column prop="stuStatus" label="状态">
+            <el-table-column prop="stuStatus" label="状态" width="200px">
               <template slot-scope="scope">
                 <el-switch
                   v-model="scope.row.stuStatus"

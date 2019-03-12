@@ -96,8 +96,9 @@ export default {
                 type: "success",
                 duration: 2000
               });
-              sessionStorage.removeItem("user");
-              sessionStorage.setItem("user", JSON.stringify(this.adminform));
+              // sessionStorage.removeItem("user");
+              // sessionStorage.setItem("user", JSON.stringify(this.adminform));
+              this.resetSetItem("user", JSON.stringify(this.adminform));
               this.start();
             } else {
               this.$message({

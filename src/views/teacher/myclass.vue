@@ -33,7 +33,7 @@
             <el-table-column prop="stuClass.className" label="班级"></el-table-column>
             <el-table-column prop="stuAccount" label="学号"></el-table-column>
             <el-table-column prop="stuName" label="姓名"></el-table-column>
-            <el-table-column prop="stuStatus" label="状态" width="150px">
+            <el-table-column prop="stuStatus" label="状态">
               <template slot-scope="scope">
                 <el-switch
                   v-model="scope.row.stuStatus"

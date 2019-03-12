@@ -20,6 +20,22 @@ Vue.config.productionTip = false
 
 
 
+// 实现sessionStorage的监听
+Vue.prototype.resetSetItem = function (key, newVal) {
+  if (key === 'user') {
+      var newStorageEvent = document.createEvent('StorageEvent');
+      const storage = {
+          setItem: function (k, val) {
+              sessionStorage.setItem(k, val);
+              newStorageEvent.initStorageEvent('setItem', false, false, k, null, val, null, null);
+              window.dispatchEvent(newStorageEvent)
+          }
+      }
+      return storage.setItem(key, newVal);
+  }
+}
+
+
 // router.beforeEach((to, from, next) => {
 //   if (to.path == '/login') {
 //     sessionStorage.removeItem('user');

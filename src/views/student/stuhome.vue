@@ -19,6 +19,7 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
+            欢迎你，{{user.stuName}}
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -38,7 +39,7 @@
           class="el-menu-vertical-demo"
           background-color="#eef1f6"
           text-color="#48576a"
-          active-text-color="#48576a"
+          active-text-color="#409eff"
           v-show="navshow"
         >
           <el-menu-item index="1">
@@ -128,10 +129,7 @@
           <router-view/>
         </transition>
       </el-col>
-
-      
     </el-col>
-
   </el-row>
 </template>
 
@@ -143,10 +141,17 @@ export default {
   },
   data() {
     return {
-      navshow: true
+      navshow: true,
+      user: {}
     };
   },
+  mounted() {
+    this.getuser();
+  },
   methods: {
+    getuser() {
+      this.user = JSON.parse(sessionStorage.getItem("user"));
+    },
     changenav() {
       this.navshow = !this.navshow;
     },
@@ -165,14 +170,13 @@ export default {
     tostuinfo() {
       this.$router.push({ path: "/stuhome/stuinfo" });
     },
-    logout(){
+    logout() {
       this.$router.push({ path: "/login" });
     },
-    myinfo(){
+    myinfo() {
       this.$router.push({ path: "/stuhome/stuinfo" });
     }
   }
-
 };
 </script>
 
@@ -258,11 +262,11 @@ export default {
     min-width: 0px !important;
   }
 }
-.footer{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  height:100px;
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
   border-color: rgba(238, 241, 146, 0.3);
 }
 </style>
