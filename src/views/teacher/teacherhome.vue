@@ -63,7 +63,6 @@
           </el-menu-item>
           <el-menu-item index="5">
             <i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;
-            <!-- <router-link slot="title" to="/stuinfo">个人信息</router-link> -->
             <span slot="title" @click="toteacherinfo">个人信息</span>
           </el-menu-item>
         </el-menu>
