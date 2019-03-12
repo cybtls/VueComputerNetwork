@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-col :span="24" class="formmain">
-      <el-col :span="4">&nbsp;</el-col>
-      <el-col :span="12">
+      <el-col :span="5">&nbsp;</el-col>
+      <el-col :span="13">
         <el-form
           :model="stuform"
           status-icon

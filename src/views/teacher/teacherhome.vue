@@ -42,7 +42,7 @@
           class="el-menu-vertical-demo"
           background-color="#eef1f6"
           text-color="#48576a"
-          active-text-color="#409eff"
+          active-text-color="#48576a"
           v-show="navshow"
         >
           <el-menu-item index="1">
@@ -75,7 +75,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="tomyclass()">
               <i class="fa fa-child"/>
             </li>
           </el-tooltip>
@@ -86,18 +86,18 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="torecordscore()">
               <i class="fa fa-pencil-square-o"/>
             </li>
           </el-tooltip>
           <el-tooltip
             class="item"
             effect="dark"
-            content="资源上传"
+            content="资源管理"
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="toresources()">
               <i class="fa fa-file"/>
             </li>
           </el-tooltip>
@@ -108,7 +108,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="toanswer()">
               <i class="fa fa-question"/>
             </li>
           </el-tooltip>
@@ -119,7 +119,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="toteacherinfo()">
               <i class="fa fa-user"/>
             </li>
           </el-tooltip>

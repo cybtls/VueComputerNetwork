@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-col :span="24" class="formmain">
-      <el-col :span="4">&nbsp;</el-col>
-      <el-col :span="12">
+      <el-col :span="7">&nbsp;</el-col>
+      <el-col :span="10">
         <el-form
           :model="adminform"
           status-icon
@@ -35,7 +35,7 @@
           </el-form-item>
         </el-form>
       </el-col>
-      <el-col :span="4">&nbsp;</el-col>
+      <el-col :span="7">&nbsp;</el-col>
     </el-col>
   </div>
 </template>
@@ -74,7 +74,6 @@ export default {
     };
   },
   mounted() {
-    // console.log(sessionStorage.getItem("user"));
     this.start();
   },
   methods: {

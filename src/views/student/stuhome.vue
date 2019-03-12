@@ -11,7 +11,7 @@
       <!-- 按钮 -->
       <el-col :span="10">
         <div class="tools" @click.prevent="changenav">
-                    <i v-if="navshow" class="el-icon-d-arrow-left" style="color:#fff;"></i>
+          <i v-if="navshow" class="el-icon-d-arrow-left" style="color:#fff;"></i>
           <i v-if="!navshow" class="el-icon-d-arrow-right" style="color:#fff;"></i>
         </div>
       </el-col>
@@ -40,7 +40,7 @@
           class="el-menu-vertical-demo"
           background-color="#eef1f6"
           text-color="#48576a"
-          active-text-color="#409eff"
+          active-text-color="#48576a"
           v-show="navshow"
         >
           <el-menu-item index="1">
@@ -74,7 +74,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="tostuscore">
               <i class="fa fa-book"/>
             </li>
           </el-tooltip>
@@ -85,7 +85,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="tosturesources">
               <i class="fa fa-file"/>
             </li>
           </el-tooltip>
@@ -96,7 +96,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="toproblem">
               <i class="fa fa-question"/>
             </li>
           </el-tooltip>
@@ -107,7 +107,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="tostudy">
               <i class="fa fa-line-chart"/>
             </li>
           </el-tooltip>
@@ -118,7 +118,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="tostuinfo">
               <i class="fa fa-user"/>
             </li>
           </el-tooltip>

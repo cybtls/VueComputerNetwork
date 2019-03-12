@@ -20,7 +20,7 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
-            <span class="user"> 欢迎你,{{user.teacherName}}</span>
+            <span class="user"> 欢迎你,{{user.adminName}}</span>
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -61,8 +61,7 @@
           </el-menu-item>
           <el-menu-item index="5">
             <i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;
-            <!-- <router-link slot="title" to="/stuinfo">个人信息</router-link> -->
-            <span slot="title" @click="tostuinfo">个人信息</span>
+            <span slot="title" @click="toadmininfo">个人信息</span>
           </el-menu-item>
         </el-menu>
 
@@ -75,7 +74,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="toclassinfo">
               <i class="fa fa-users"/>
             </li>
           </el-tooltip>
@@ -86,7 +85,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="toallteacherinfo">
               <i class="fa fa-male"/>
             </li>
           </el-tooltip>
@@ -97,7 +96,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="toallstuinfo">
               <i class="fa fa-child"/>
             </li>
           </el-tooltip>
@@ -108,7 +107,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="toadminresources">
               <i class="fa fa-file"/>
             </li>
           </el-tooltip>
@@ -119,7 +118,7 @@
             placement="right"
             transition="el-zoom-in-center"
           >
-            <li class="el-menu-item" @click="changenav">
+            <li class="el-menu-item" @click="toadmininfo">
               <i class="fa fa-user"/>
             </li>
           </el-tooltip>
@@ -175,7 +174,7 @@ export default {
     toadminresources() {
       this.$router.push({ path: "/adminhome/adminresources" });
     },
-    tostuinfo() {
+    toadmininfo() {
       this.$router.push({ path: "/adminhome/admininfo" });
     },
     handleCommand(command) {

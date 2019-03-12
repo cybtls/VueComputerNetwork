@@ -1,30 +1,16 @@
-# vuecomputernetwork
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-
 #### 后端状态码
 
 ```java
+package com.cyb.codemsg;
+
 public class CodeMsg {
+    /**
+     * 调用接口成功
+     */
+    public static Integer Code_SUCCESS = 200;
+    public static String Code_SUCCESS_MSG = "调用接口成功";
+
+
     /**
      * 调用接口失败
      */
@@ -33,10 +19,10 @@ public class CodeMsg {
 
 
     /**
-     *  账号存在 登录成功
+     *  存在
      */
-    public static Integer Code_EXIST = 200;
-    public static String Code_EXIST_MSG = "账号存在 登录成功";
+    public static Integer Code_EXIST = 201;
+    public static String Code_EXIST_MSG = "存在";
 
     /**
      * 账号状态为封禁
@@ -52,6 +38,7 @@ public class CodeMsg {
     public static String Code_NOTEXIST_MSG = "账号不存在，登录失败";
 
 }
+
 ```
 
 
@@ -383,6 +370,7 @@ npm i vue2-verify
 | `fontSize`   | 常规验证码中的字母&数字的字体大小，默认为30px。     |
 | `codeLength` | 常规验证码中显示的验证码个数，默认为6。             |
 
+![](C:\Users\Administrator\Desktop\毕设\image\常规验证码.PNG)
 
 ##### 运算验证码
 
@@ -396,6 +384,7 @@ npm i vue2-verify
 | `fontSize`   | 运算验证码中的数字的字体大小，默认为30px。                   |
 | `showButton` | 是否显示确定按钮，默认为true                                 |
 
+![](C:\Users\Administrator\Desktop\毕设\image\运算验证码.PNG)
 
 ##### 滑动验证码
 
@@ -407,6 +396,7 @@ npm i vue2-verify
 | `barSize`    | 其中包含了width、height两个参数，分别代表滑动条的宽度和高度，支持百分比方式设置，如：{width:'100%',height:'40px'} |
 | `showButton` | 是否显示确定按钮，默认为true                                 |
 
+![](C:\Users\Administrator\Desktop\毕设\image\滑动验证码.PNG)
 
 ##### 拼图验证码
 
@@ -424,6 +414,7 @@ npm i vue2-verify
 | `barSize`    | 其中包含了width、height两个参数，分别代表滑动条的宽度和高度，支持百分比方式设置，如:{width:'100%',height:'40px'} |
 | `showButton` | 是否显示确定按钮，默认为true                                 |
 
+![](C:\Users\Administrator\Desktop\毕设\image\拼图验证码.PNG)
 
 ##### 选字验证码
 
@@ -440,7 +431,7 @@ npm i vue2-verify
 | `barSize`    | 其中包含了width、height两个参数，分别代表滑动条的宽度和高度，支持百分比方式设置，如:{width:'100%',height:'40px'} |
 | `showButton` | 是否显示确定按钮，默认为true                                 |
 
-
+![](C:\Users\Administrator\Desktop\毕设\image\选字验证码.PNG)
 
 ##### 基础用例
 
@@ -484,5 +475,158 @@ npm i vue2-verify
       return Y + M + D;
     },
     add0(m){return m<10?'0'+m:m },
+```
+
+##### 分页的实现（element-ui 分页插件的使用）
+
+```html
+          <el-pagination
+            :current-page="CurrentpageNum"   当前页码
+            :page-size="10"	                 每页数量
+            :pager-count="5"													
+            layout="prev, pager, next"
+            :total="total"                   总数，最好通过后端查询返回
+            @current-change="getCurrentChange"   页码改变时触发的时间
+            style="float:right;"
+          ></el-pagination>
+
+```
+
+具体的去看官方文档http://element-cn.eleme.io/#/zh-CN/component/installation
+
+一个简单的例子（结合后端看）
+
+```javascript
+      resources.getresources(params).then(res => {
+        if (res.data.code == 204) {
+          this.$message({
+            type: "info",
+            message: "查询不到相关资源"
+          });
+        } else {
+          this.resorceslist = res.data.resources;  //后端返回的指定数据
+          this.total = res.data.count;			//后端返回的总数
+        }
+      });
+```
+
+
+
+#### 文件上传与下载（结合后端.md去看）
+
+参考博文https://www.jianshu.com/p/decd9e45f1bf
+
+##### 文件上传(基于element-ui的el-upload)
+
+```html
+          <el-upload
+            action="后端接口"
+            ref="upload"
+            class="upload-demo"
+            :action="action"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :before-upload="beforeUpload"
+            :on-success="success"
+            :on-error="error"
+            :limit="1"
+            name="file"
+            :data="filedata"
+            :on-exceed="handleExceed"
+            accept=".PDF, .txt, .doc, .wps, .md"
+          >
+```
+
+```javascript
+上面绑定的数据在下面实现和验证
+      filedata: {
+        filecategoryid: "",
+        filename: "",
+        uploader: ""
+      }
+
+
+    handleRemove(file, fileList) {
+      // console.log(file, fileList);
+    },
+    handlePreview(file) {
+      // console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`只能选择 1 个文件`);
+    },
+    beforeRemove(file, fileList) {
+      // return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    beforeUpload(file) {
+      if (
+        this.filedata.filecategoryid == null ||
+        this.filedata.filecategoryid.length == 0 ||
+        this.filedata.filename == null ||
+        this.filedata.filename.length == 0
+      ) {
+        this.$message({
+          type: "warning",
+          message: "请完善上面的内容"
+        });
+        return false;
+      }
+      var maxsize = 1024 * 1024 * 5;
+      if (file.size > maxsize) {
+        this.$message({
+          type: "warning",
+          message: "文件过大，无法上传"
+        });
+        return false;
+      }
+    },
+    success() {
+      this.$message({
+        type: "success",
+        message: "上传成功"
+      });
+      this.filedata.filecategoryid = "";
+      this.filedata.filename = "";
+      this.showuploadinfo = false;
+      this.$refs.upload.clearFiles();
+      this.getresources();
+    },
+    error(err, file, fileList) {
+      this.$message({
+        type: "error",
+        message: "上传失败"
+      });
+    }
+```
+
+##### 下载（接收后端数据并告诉浏览器这是下载）
+
+```javascript
+    downresources(row) {
+      var params = {
+        resid: row.resId
+      };
+      resources.downresources(params).then(res => {
+        // console.log(res)
+        var blob = new Blob([res.data]);
+        var downloadElement = document.createElement("a");
+        var href = window.URL.createObjectURL(blob); //创建下载的链接
+        downloadElement.href = href;
+        downloadElement.download = row.resName; //下载后文件名
+        document.body.appendChild(downloadElement);
+        downloadElement.click(); //点击下载
+        document.body.removeChild(downloadElement); //下载完成移除元素
+        window.URL.revokeObjectURL(href); //释放掉blob对象
+      });
+    },
+    
+        
+        //这里是自己定义的api接口
+    downresources(params) {
+    return axios.post(`后端接口`, params,{responseType: 'blob'}).then(res => {
+      return res
+    })
+  },  
 ```
 
