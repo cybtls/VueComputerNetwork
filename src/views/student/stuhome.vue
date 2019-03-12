@@ -11,7 +11,8 @@
       <!-- 按钮 -->
       <el-col :span="10">
         <div class="tools" @click.prevent="changenav">
-          <i class="fa fa-align-justify"></i>
+                    <i v-if="navshow" class="el-icon-d-arrow-left" style="color:#fff;"></i>
+          <i v-if="!navshow" class="el-icon-d-arrow-right" style="color:#fff;"></i>
         </div>
       </el-col>
 
@@ -19,7 +20,7 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
-            欢迎你，{{user.stuName}}
+           <span class="user"> 欢迎你,{{user.teacherName}}</span>
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -181,6 +182,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.user{
+  font-size: 15px;
+  font-weight: 300;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding-right: 15px;
+}
 .container {
   position: absolute;
   top: 0px;
