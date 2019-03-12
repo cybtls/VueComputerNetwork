@@ -1,12 +1,12 @@
 <template>
-    <div>
-        学习
-    </div>
+    <el-row>
+      111中欧耐高温大大
+    </el-row>
 </template>
 
 <script>
 export default {
-    
+  
 }
 </script>
 
