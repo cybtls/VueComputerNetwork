@@ -185,6 +185,7 @@ export default {
       this.CurrentpageNum = value;
       this.getresources();
     },
+    // 文件下载
     downresources(row) {
       var params = {
         resid: row.resId
@@ -241,7 +242,6 @@ export default {
       this.getresources();
     },
     changeuploadfilecategoryid(value) {
-      console.log(this.uploadfilecategoryid);
       this.uploadfilecategoryid = value;
     },
     showeditcategoryinfo() {
@@ -363,8 +363,8 @@ export default {
     beforeRemove(file, fileList) {
       // return this.$confirm(`确定移除 ${file.name}？`);
     },
+    // 文件验证
     beforeUpload(file) {
-      console.log(this.filedata)
       if (
         this.filedata.filecategoryid == null ||
         this.filedata.filecategoryid.length == 0 ||
