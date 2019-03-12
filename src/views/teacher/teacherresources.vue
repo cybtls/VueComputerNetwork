@@ -132,7 +132,7 @@
             name="file"
             :data="filedata"
             :on-exceed="handleExceed"
-            accept=".PDF, .txt, .doc, .wps, .md"
+            accept=".PDF, .txt, .doc, .docx, .wps, .md, .jpg, .jpeg, .png, .gif, .bmp, .pdf, .JPG, .JPEG, .PBG, .GIF, .BMP"
           >
             <el-button size="small" type="primary">选择文件</el-button>
           </el-upload>
@@ -174,6 +174,7 @@ export default {
   mounted() {
     this.getallcategory();
     this.getresources();
+    this.getuploader();
   },
   methods: {
     getresourcesbyname() {
@@ -201,6 +202,7 @@ export default {
         downloadElement.click(); //点击下载
         document.body.removeChild(downloadElement); //下载完成移除元素
         window.URL.revokeObjectURL(href); //释放掉blob对象
+        this.getresources();
       });
     },
     delresources(row) {
@@ -300,6 +302,7 @@ export default {
                 message: "删除成功"
               });
               this.getallcategory();
+              this.getresources();
             } else {
               this.$message({
                 type: "error",
@@ -326,8 +329,6 @@ export default {
           });
         }
       });
-      var user = JSON.parse(sessionStorage.getItem("user"));
-      this.filedata.uploader = user.teacherName;
     },
     getresources() {
       var params = {
@@ -350,6 +351,10 @@ export default {
           this.total = res.data.count;
         }
       });
+    },
+    getuploader() {
+      var user = JSON.parse(sessionStorage.getItem("user"));
+      this.filedata.uploader = user.teacherName;
     },
     handleRemove(file, fileList) {
       // console.log(file, fileList);
