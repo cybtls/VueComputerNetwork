@@ -11,12 +11,9 @@
     name="file"
     :data="testdata"
     :on-exceed="handleExceed"
-    :http-request="upload"
-    :auto-upload="false"
   >
     <el-button size="small" type="primary">点击上传</el-button>
   </el-upload>
-  <el-button @click="upload">上传</el-button>
   </div>
 </template>
 
