@@ -3,25 +3,31 @@
     <el-row style="background-color: #fff;">
       <el-col :span="24" class="main">
         <el-col :span="5">&nbsp;</el-col>
-        <el-col :span="14">
-          <el-table :data="tableData5" style="width: 100%">
+        <el-col :span="12">
+          <el-table :data="problemslist" style="width: 100%">
             <el-table-column type="expand">
               <template slot-scope="props">
                 <el-form label-position="left" inline class="demo-table-expand">
                   <el-form-item label="问题详情:">
-                    <span>
-                    {{props.row.desc}}
-                    </span>
+                    <span>{{props.row.problemText}}</span>
+                  </el-form-item>
+                  <el-form-item label="回答" v-if="props.row.answer!= null">
+                    <span>{{props.row.answer.answerText}}</span>
                   </el-form-item>
                 </el-form>
               </template>
             </el-table-column>
             <el-table-column type="index" width="50"></el-table-column>
-            <el-table-column label="提问时间" prop="id"></el-table-column>
-            <el-table-column label="标题" prop="name"></el-table-column>
+            <el-table-column label="提问时间" prop="problemCreatedate"></el-table-column>
+            <el-table-column label="标题" prop="problemTitle"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button size="mini" type="info" @click="showdetails(scope.row)">回答</el-button>
+                <el-button
+                  v-if="scope.row.answer == null"
+                  size="mini"
+                  type="info"
+                  @click="showanswer(scope.row)"
+                >回答</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -45,28 +51,21 @@
       </el-col>
     </el-row>
 
-
-    <el-dialog title="问题详情" :visible.sync="details" width="30%">
-      <el-form :model="detailsform">
+    <el-dialog title="问题详情" :visible.sync="showanswerinfo" width="25%">
+      <el-form :model="answerinfo">
         <el-form-item label="提问时间">
-          <el-input type="text" v-model="detailsform.title"></el-input>
+          <span>{{answerinfo.problemCreatedate}}</span>
         </el-form-item>
         <el-form-item label="问题标题">
-          <el-input type="text" v-model="detailsform.title"></el-input>
+          <span>{{answerinfo.problemTitle}}</span>
         </el-form-item>
         <el-form-item label="问题详情">
-          <el-input
-            type="textarea"
-            v-model="detailsform.questiontext"
-            rows="5"
-            resize="none"
-            class="el-input"
-          ></el-input>
+          <span>{{answerinfo.problemText}}</span>
         </el-form-item>
         <el-form-item label="回答">
           <el-input
             type="textarea"
-            v-model="detailsform.details"
+            v-model="answerinfo.answertext"
             rows="5"
             resize="none"
             class="el-input"
@@ -74,130 +73,104 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="details = false">确 定</el-button>
+        <el-button type="primary" @click="showanswerinfo = false">取消</el-button>
+        <el-button type="primary" @click="addanswer">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { problems, answer } from "../../api/api.js";
 export default {
   data() {
     return {
       questioninfo: false,
       details: false,
-      total:100,
+      total: 1,
       questionform: {},
-      detailsform: {},
-      CurrentpageNum:1,
-      tableData5: [
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-      ]
+      CurrentpageNum: 1,
+      problemslist: [],
+      teacherid: "",
+      answerinfo: {
+        problemId: "",
+        problemText: "",
+        problemTitle: "",
+        problemCreatedate: "",
+        answertext: ""
+      },
+      showanswerinfo: false
     };
   },
-  mounted() {},
+  mounted() {
+    this.getteacherid();
+    this.getproblem();
+  },
   methods: {
-    getCurrentChange(value){
-      this.CurrentpageNum = value
+    getproblem() {
+      var params = {
+        teacherid: this.teacherid,
+        CurrentpageNum: this.CurrentpageNum
+      };
+      problems.getmyproblemsbyteacherid(params).then(res => {
+        if (res.data.code == 204) {
+          this.$message({
+            type: "info",
+            message: "暂时没有需要解决的问题"
+          });
+        } else if (res.data.code == 400) {
+          this.$message({
+            type: "error",
+            message: "出现BUG了,小虎杀疯辣"
+          });
+        } else {
+          this.problemslist = res.data.problems;
+          this.total = res.data.count;
+        }
+      });
     },
-    delquestion(row) {
-      console.log(row);
+    getCurrentChange(value) {
+      this.CurrentpageNum = value;
+      this.getproblem();
     },
-    showdetails(row) {
-      console.log(row);
-      this.details = true;
+    showanswer(row) {
+      this.showanswerinfo = true;
+      this.answerinfo = row;
+    },
+    addanswer() {
+      if (
+        this.answerinfo.answertext == null ||
+        this.answerinfo.answertext.length == 0
+      ) {
+        this.$message({
+          type: "warning",
+          message: "请写下你的回答"
+        });
+      } else {
+        var params = {
+          problemid: this.answerinfo.problemId,
+          text: this.answerinfo.answertext
+        };
+        answer.addanswer(params).then(res => {
+          if (res.data.code == 200) {
+            this.answerinfo.answertext = ""
+            this.showanswerinfo = false;
+            this.getproblem();
+          } else {
+            this.$message({
+              type: "error",
+              message: "回答失败辣，找辣个男人"
+            });
+          }
+        });
+      }
     },
     showquestioninfo() {
       this.questioninfo = true;
+    },
+    getteacherid() {
+      var user = JSON.parse(sessionStorage.getItem("user"));
+      this.teacherid = user.teacherId;
     }
   }
 };
@@ -229,7 +202,7 @@ export default {
   margin-bottom: 0;
   width: 50%;
 }
-.el-dialog__body{
+.el-dialog__body {
   padding: 10px 15px;
 }
 </style>

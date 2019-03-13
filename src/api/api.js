@@ -30,6 +30,12 @@ export const student = {
       return res
     })
   },
+  getteacherlist(params) {
+    return axios.get(`${base}/student/getteacherlist`, params).then(res => {
+      return res
+    })
+  },
+  
 }
 
 export const teacher = {
@@ -253,3 +259,40 @@ export const category = {
     })
   },
 }
+
+export const problems = {
+  getmyproblems(params) {
+    return axios.get(`${base}/problems/getmyproblems`, {params:params}).then(res => {
+      return res
+    })
+  },
+  getteachernamebyid(params) {
+    return axios.get(`${base}/problems/getteachernamebyid`, {params:params}).then(res => {
+      return res
+    })
+  },
+  delproblem(params) {
+    return axios.get(`${base}/problems/delproblem`, {params:params}).then(res => {
+      return res
+    })
+  },
+  addproblem(params) {
+    return axios.post(`${base}/problems/addproblem`, params).then(res => {
+      return res
+    })
+  },
+  getmyproblemsbyteacherid(params) {
+    return axios.get(`${base}/problems/getmyproblemsbyteacherid`, {params:params}).then(res => {
+      return res
+    })
+  },
+}
+
+export const answer = {
+  addanswer(params) {
+    return axios.post(`${base}/answer/addanswer`, params).then(res => {
+      return res
+    })
+  },
+}
+
