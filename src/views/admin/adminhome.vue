@@ -57,9 +57,13 @@
           </el-menu-item>
           <el-menu-item index="4">
             <i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;
-            <span slot="title" @click="toadminresources">资料管理</span>
+            <span slot="title" @click="toadminresources">文档管理</span>
           </el-menu-item>
-          <el-menu-item index="5">
+                    <el-menu-item index="5">
+            <i class="fa fa-video-camera"></i>&nbsp;&nbsp;&nbsp;
+            <span slot="title" @click="toadminvideo">视频管理</span>
+          </el-menu-item>
+          <el-menu-item index="6">
             <i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;
             <span slot="title" @click="toadmininfo">个人信息</span>
           </el-menu-item>
@@ -111,6 +115,18 @@
               <i class="fa fa-file"/>
             </li>
           </el-tooltip>
+                    <el-tooltip
+            class="item"
+            effect="dark"
+            content="视频管理"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="toadminvideo">
+              <i class="fa fa-video-camera"/>
+            </li>
+          </el-tooltip>
+          
           <el-tooltip
             class="item"
             effect="dark"
@@ -173,6 +189,9 @@ export default {
     },
     toadminresources() {
       this.$router.push({ path: "/adminhome/adminresources" });
+    },
+    toadminvideo(){
+this.$router.push({ path: "/adminhome/adminvideo" });
     },
     toadmininfo() {
       this.$router.push({ path: "/adminhome/admininfo" });

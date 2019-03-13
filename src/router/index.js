@@ -54,6 +54,7 @@ export default new Router({
         { path:'allstuinfo', name:'allstuinfo', component:()=> import('../views/admin/allstuinfo.vue') },
         { path:'allteacherinfo', name:'allteacherinfo', component:()=> import('../views/admin/allteacherinfo.vue') },
         { path:'classinfo', name:'classinfo', component:()=> import('../views/admin/classinfo.vue') },
+        { path:'adminvideo', name:'adminvideo', component:()=> import('../views/admin/adminvideo.vue') },
       ]
     },
     {
@@ -67,6 +68,7 @@ export default new Router({
         { path:'answer', name:'answer', component:()=> import('../views/teacher/answer.vue') },
         { path:'myclass', name:'myclass', component:()=> import('../views/teacher/myclass.vue') },
         { path:'teacherresources', name:'teacherresources', component:()=> import('../views/teacher/teacherresources.vue') },
+        { path:'teachervideo', name:'teachervideo', component:()=> import('../views/teacher/teachervideo.vue') },
       ]
     },
     {

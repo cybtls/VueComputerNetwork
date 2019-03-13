@@ -12,7 +12,6 @@
       <el-col :span="10">
         <div class="tools" @click.prevent="changenav">
           <!-- <i class="fa fa-align-justify"></i> -->
-
           <i v-if="navshow" class="el-icon-d-arrow-left" style="color:#fff;"></i>
           <i v-if="!navshow" class="el-icon-d-arrow-right" style="color:#fff;"></i>
         </div>
@@ -22,7 +21,7 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
-           <span class="user"> 欢迎你,{{user.teacherName}}</span>
+            <span class="user">欢迎你,{{user.teacherName}}</span>
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -55,13 +54,17 @@
           </el-menu-item>
           <el-menu-item index="3">
             <i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;
-            <span slot="title" @click="toresources">资源管理</span>
+            <span slot="title" @click="toresources">文档管理</span>
           </el-menu-item>
           <el-menu-item index="4">
+            <i class="fa fa-video-camera"></i>&nbsp;&nbsp;&nbsp;
+            <span slot="title" @click="toteachervideo">视频管理</span>
+          </el-menu-item>
+          <el-menu-item index="5">
             <i class="fa fa-question"></i>&nbsp;&nbsp;&nbsp;
             <span slot="title" @click="toanswer">学生答疑</span>
           </el-menu-item>
-          <el-menu-item index="5">
+          <el-menu-item index="6">
             <i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;
             <span slot="title" @click="toteacherinfo">个人信息</span>
           </el-menu-item>
@@ -93,12 +96,23 @@
           <el-tooltip
             class="item"
             effect="dark"
-            content="资源管理"
+            content="文档管理"
             placement="right"
             transition="el-zoom-in-center"
           >
             <li class="el-menu-item" @click="toresources()">
               <i class="fa fa-file"/>
+            </li>
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="视频管理"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="toteachervideo()">
+              <i class="fa fa-video-camera"/>
             </li>
           </el-tooltip>
           <el-tooltip
@@ -170,9 +184,13 @@ export default {
     torecordscore() {
       this.$router.push({ path: "/teacherhome/recordscore" });
     },
-    //资源管理
+    //文档管理
     toresources() {
       this.$router.push({ path: "/teacherhome/teacherresources" });
+    },
+    //视频管理
+    toteachervideo() {
+      this.$router.push({ path: "/teacherhome/teachervideo" });
     },
     //学生答疑
     toanswer() {
@@ -193,10 +211,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.user{
+.user {
   font-size: 15px;
   font-weight: 300;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   padding-right: 15px;
 }
 .container {
