@@ -239,6 +239,25 @@ export const resources = {
   },
 }
 
+export const video ={
+  getvideo(params) {
+    return axios.post(`${base}/video/getvideo`, params).then(res => {
+      return res
+    })
+  },
+  getvideobyname(params) {
+    return axios.get(`${base}/video/getvideobyname`, {params:params}).then(res => {
+      return res
+    })
+  },
+  delvideo(params) {
+    return axios.get(`${base}/video/delvideo`, {params:params}).then(res => {
+      return res
+    })
+  },
+  
+}
+
 export const category = {
   // 获取所有类别
   getallcategory(params) {

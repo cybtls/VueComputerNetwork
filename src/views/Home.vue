@@ -46,7 +46,7 @@
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: [{
             type: "video/mp4",
-            src: "http://localhost:8080/resources/data/video/1552388318021.mp4"
+            src: "http://localhost:8080/resources/data/video/pdd.mp4"
           }],
           poster: "/static/images/author.jpg",
         }
