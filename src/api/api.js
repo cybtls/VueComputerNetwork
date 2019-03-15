@@ -261,7 +261,11 @@ export const video ={
       return res
     })
   },
-  
+  addviewingtimes(params){
+    return axios.get(`${base}/video/addviewingtimes`, {params:params}).then(res => {
+      return res
+    })
+  }
 }
 
 export const category = {
