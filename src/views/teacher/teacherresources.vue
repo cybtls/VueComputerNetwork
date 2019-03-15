@@ -132,17 +132,18 @@
             name="file"
             :data="filedata"
             :on-exceed="handleExceed"
-            accept=".PDF, .txt, .doc, .docx, .wps, .md, .jpg, .jpeg, .png, .gif, .bmp, .pdf, .JPG, .JPEG, .PBG, .GIF, .BMP"
+            accept=".ppt, .txt, .doc, .docx, .wps, .md, .jpg, .jpeg, .png, .gif, .bmp, .pdf, .JPG, .JPEG, .PBG, .GIF, .BMP"
           >
             <el-button size="small" type="primary">选择文件</el-button>
+            <div
+              slot="tip"
+              class="el-upload__tip"
+            >只能为(.ppt, .txt, .doc, .docx, .wps, .md, .jpg, .jpeg, .png, .gif, .bmp, .pdf, .JPG, .JPEG, .PBG, .GIF, .BMP)文件且视频大小不能超过10M</div>
           </el-upload>
         </el-col>
       </el-col>
 
-      <div slot="footer" class="dialog-footer" style="margin-top:50px;height:10px;">
-        <!-- <el-button @click="showuploadinfo = false">取 消</el-button> -->
-        <!-- <el-button type="primary" @click="uploadfile">确定</el-button> -->
-      </div>
+      <div slot="footer" class="dialog-footer" style="margin-top:50px;height:50px;"></div>
     </el-dialog>
   </div>
 </template>
@@ -369,7 +370,28 @@ export default {
       // return this.$confirm(`确定移除 ${file.name}？`);
     },
     // 文件验证
-    beforeUpload(file) {
+    async beforeUpload(file) {
+      var type = file.name.substring(file.name.lastIndexOf(".") + 1);
+      const typelist = [
+        "PDF",
+        "txt",
+        "doc",
+        "docx",
+        "wps",
+        "md",
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "bmp",
+        "pdf",
+        "JPG",
+        "JPEG",
+        "PBG",
+        "GIF",
+        "BMP",
+        "ppt"
+      ];
       if (
         this.filedata.filecategoryid == null ||
         this.filedata.filecategoryid.length == 0 ||
@@ -382,14 +404,46 @@ export default {
         });
         return false;
       }
-      var maxsize = 1024 * 1024 * 5;
-      if (file.size > maxsize) {
-        this.$message({
-          type: "warning",
-          message: "文件过大，无法上传"
-        });
-        return false;
-      }
+      var params = {
+        resourcesname: this.filedata.filename + "." + type
+      };
+      await new Promise((resolve, reject) => {
+        resolve(
+          resources.getresourcesbyname(params).then(res => {
+            if (res.data.code == 201) {
+              return true;
+            } else {
+              return false;
+            }
+          })
+        );
+      }).then(data => {
+        var maxsize = 1024 * 1024 * 10;
+        if (file.size > maxsize) {
+          this.$message({
+            type: "warning",
+            message: "文件过大，无法上传"
+          });
+          return reject();
+        }
+        if (typelist.indexOf(type) < 0) {
+          console.log(type);
+          this.$message({
+            type: "warning",
+            message: "文件类型不对，无法上传"
+          });
+          console.log("文件类型不对，无法上传");
+          return reject();
+        }
+        if (data) {
+          this.$message({
+            type: "warning",
+            message: "文件名已经存在，请重新命名"
+          });
+          console.log("文件名已经存在，请重新命名");
+          return reject();
+        }
+      });
     },
     success() {
       this.$message({
@@ -426,5 +480,9 @@ export default {
 .el-row {
   background-color: #fff;
   margin: 10px;
+}
+.el-upload__tip {
+  font-size: 14px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>

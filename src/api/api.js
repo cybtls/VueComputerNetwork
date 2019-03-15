@@ -237,6 +237,12 @@ export const resources = {
       return res
     })
   },
+  getresourcesbyname(params) {
+    return axios.get(`${base}/resources/getresourcesbyname`, {params:params}).then(res => {
+      return res
+    })
+  },
+  
 }
 
 export const video ={

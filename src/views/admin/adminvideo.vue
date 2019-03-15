@@ -21,13 +21,13 @@
         <el-col :span="1">&nbsp;</el-col>
         <el-col :span="6" class="searchinput">
           <el-input
-            v-model="videoname"
-            placeholder="请输入要查询的视频"
+            v-model="resourcename"
+            placeholder="请输入要查询的资源"
             prefix-icon="el-icon-search"
-            @keyup.enter.native="getvideosbyname"
+            @keyup.enter.native="getresourcesbyname"
           ></el-input>
-          <el-button class="searchbutton" icon="el-icon-search" circle @click="getvideobyname"></el-button>
-          <el-button round @click="showuploadinfo = true" class="el-icon-upload" type="primary">上传视频</el-button>
+          <el-button class="searchbutton" icon="el-icon-search" circle @click="getresourcesbyname"></el-button>
+          <el-button round @click="showuploadinfo = true" class="el-icon-upload" type="primary">上传文件</el-button>
         </el-col>
       </el-col>
 
@@ -35,18 +35,17 @@
       <el-col :span="24">
         <el-col :span="4">&nbsp;</el-col>
         <el-col :span="16">
-          <el-table :data="videolist" border style="width:100%" v-loading="loading" stripe>
-            <el-table-column prop="videoId" label="资源ID" width="100px;"></el-table-column>
-            <el-table-column prop="videoName" label="资源名称"></el-table-column>
+          <el-table :data="resorceslist" border style="width:100%" v-loading="loading" stripe>
+            <el-table-column prop="resId" label="资源ID" width="100px;"></el-table-column>
+            <el-table-column prop="resName" label="资源名称"></el-table-column>
             <el-table-column prop="category.categoryName" label="资源类别"></el-table-column>
-            <el-table-column prop="videoViewingtimes" label="观看次数" width="100px;"></el-table-column>
-            <el-table-column prop="videoLastuploader" label="上传者"></el-table-column>
-            <el-table-column prop="videoLastmodification" label="最后修改时间"></el-table-column>
+            <el-table-column prop="resDownnum" label="下载数量" width="100px;"></el-table-column>
+            <el-table-column prop="resLastuploader" label="上传者"></el-table-column>
+            <el-table-column prop="resLastmodification" label="最后修改时间"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <!-- <el-button @click="downresources(scope.row)" type="primary" size="small">下载</el-button> -->
-                <el-button @click="watchvideo(scope.row)" type="error" size="small">观看</el-button>
-                <el-button @click="delvideo(scope.row)" type="error" size="small">删除</el-button>
+                <el-button @click="downresources(scope.row)" type="primary" size="small">下载</el-button>
+                <el-button @click="delresources(scope.row)" type="error" size="small">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -92,13 +91,14 @@
           <el-button type="primary" @click="addcategory">确定</el-button>
         </div>
       </el-dialog>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="showeditcategory = false">取 消</el-button>
         <el-button type="primary" @click="showaddcategory = true">添加新类别</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog width="20%" title="上传视频" :visible.sync="showuploadinfo">
+    <el-dialog width="20%" title="上传文件" :visible.sync="showuploadinfo">
       <el-col :span="24">
         <el-col :span="12">
           <el-select
@@ -132,28 +132,30 @@
             name="file"
             :data="filedata"
             :on-exceed="handleExceed"
-            accept=".avi, .mov, .mp4, .mkv, .flv, .rmvb, .m3u8"
+            accept=".ppt, .txt, .doc, .docx, .wps, .md, .jpg, .jpeg, .png, .gif, .bmp, .pdf, .JPG, .JPEG, .PBG, .GIF, .BMP"
           >
             <el-button size="small" type="primary">选择文件</el-button>
-            <div slot="tip" class="el-upload__tip">只能为(.avi,.mov,.mp4,.mkv,.flv,.rmvb,.m3u8)文件且视频不能超过500M</div>
+            <div
+              slot="tip"
+              class="el-upload__tip"
+            >只能为(.ppt, .txt, .doc, .docx, .wps, .md, .jpg, .jpeg, .png, .gif, .bmp, .pdf, .JPG, .JPEG, .PBG, .GIF, .BMP)文件且视频大小不能超过10M</div>
           </el-upload>
         </el-col>
       </el-col>
 
-      <div slot="footer" class="dialog-footer" style="margin-top:50px;height:50px;">
-      </div>
+      <div slot="footer" class="dialog-footer" style="margin-top:50px;height:50px;"></div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { category,video } from "../../api/api.js";
+import { category, resources } from "../../api/api.js";
 export default {
   data() {
     return {
-      action: "http://localhost:8080/video/uploadvideo",
-      videoname: "",
-      videolist: [],
+      action: "http://localhost:8080/resources/uploaddocument",
+      resourcename: "",
+      resorceslist: [],
       categorylist: [],
       categoryname: "",
       categoryid: "",
@@ -167,24 +169,42 @@ export default {
         filecategoryid: "",
         filename: "",
         uploader: ""
-      },
-      flag: false
+      }
     };
   },
   mounted() {
     this.getallcategory();
-    this.getvideo();
+    this.getresources();
     this.getuploader();
   },
   methods: {
-    getvideobyname() {
-      this.getvideo();
+    getresourcesbyname() {
+      this.getresources();
       this.categoryid = "";
       this.resourcename = "";
     },
     getCurrentChange(value) {
       this.CurrentpageNum = value;
-      this.getvideo();
+      this.getresources();
+    },
+    // 文件下载
+    downresources(row) {
+      var params = {
+        resid: row.resId
+      };
+      resources.downresources(params).then(res => {
+        // console.log(res)
+        var blob = new Blob([res.data]);
+        var downloadElement = document.createElement("a");
+        var href = window.URL.createObjectURL(blob); //创建下载的链接
+        downloadElement.href = href;
+        downloadElement.download = row.resName; //下载后文件名
+        document.body.appendChild(downloadElement);
+        downloadElement.click(); //点击下载
+        document.body.removeChild(downloadElement); //下载完成移除元素
+        window.URL.revokeObjectURL(href); //释放掉blob对象
+        this.getresources();
+      });
     },
     delresources(row) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -222,7 +242,7 @@ export default {
         });
     },
     chagecategoryid() {
-      this.getvideo();
+      this.getresources();
     },
     changeuploadfilecategoryid(value) {
       this.uploadfilecategoryid = value;
@@ -311,25 +331,25 @@ export default {
         }
       });
     },
-    getvideo() {
+    getresources() {
       var params = {
         CurrentpageNum: this.CurrentpageNum
       };
-      if (this.videoname != null && this.videoname.length > 0) {
-        params.videoname = this.videoname;
+      if (this.resourcename != null && this.resourcename.length > 0) {
+        params.resourcename = this.resourcename;
       }
       if (this.categoryid != null && this.categoryid > 0) {
         params.categoryid = this.categoryid;
       }
-      video.getvideo(params).then(res => {
+      resources.getresources(params).then(res => {
         if (res.data.code == 204) {
           this.$message({
             type: "info",
             message: "查询不到相关资源"
           });
         } else {
+          this.resorceslist = res.data.resources;
           this.total = res.data.count;
-          this.videolist = res.data.videos;
         }
       });
     },
@@ -351,9 +371,27 @@ export default {
     },
     // 文件验证
     async beforeUpload(file) {
-      var type = file.type.lastIndexOf("/");
-      type = file.type.substring(file.type.lastIndexOf("/") + 1);
-      const typelist = ['avi','mov','mp4','mkv','flv','rmvb','m3u8']
+      var type = file.name.substring(file.name.lastIndexOf(".") + 1);
+      const typelist = [
+        "PDF",
+        "txt",
+        "doc",
+        "docx",
+        "wps",
+        "md",
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "bmp",
+        "pdf",
+        "JPG",
+        "JPEG",
+        "PBG",
+        "GIF",
+        "BMP",
+        "ppt"
+      ];
       if (
         this.filedata.filecategoryid == null ||
         this.filedata.filecategoryid.length == 0 ||
@@ -364,38 +402,35 @@ export default {
           type: "warning",
           message: "请完善上面的内容"
         });
-        return reject();
+        return false;
       }
       var params = {
-        videoname: this.filedata.filename + "." + type
+        resourcesname: this.filedata.filename + "." + type
       };
       await new Promise((resolve, reject) => {
         resolve(
-          video.getvideobyname(params).then(res => {
+          resources.getresourcesbyname(params).then(res => {
             if (res.data.code == 201) {
               return true;
-            }else{
+            } else {
               return false;
             }
           })
         );
       }).then(data => {
-        if(typelist.indexOf(type)<0){
-          this.$message({
-            type: "warning",
-            message: "文件类型不对，无法上传"
-          });
-           console.log("文件类型不对，无法上传")
-          return reject();
-        }
-        //大于500M不能上传
-        var maxsize = 1024 * 1024 * 1024 * 1024 * 5; 
+        var maxsize = 1024 * 1024 * 10;
         if (file.size > maxsize) {
           this.$message({
             type: "warning",
             message: "文件过大，无法上传"
           });
-          console.log("文件过大，无法上传")
+          return reject();
+        }
+        if (typelist.indexOf(type) < 0) {
+          this.$message({
+            type: "warning",
+            message: "文件类型不对，无法上传"
+          });
           return reject();
         }
         if (data) {
@@ -403,7 +438,6 @@ export default {
             type: "warning",
             message: "文件名已经存在，请重新命名"
           });
-           console.log("文件名已经存在，请重新命名")
           return reject();
         }
       });
@@ -417,48 +451,14 @@ export default {
       this.filedata.filename = "";
       this.showuploadinfo = false;
       this.$refs.upload.clearFiles();
-      this.getvideo();
+      this.getresources();
     },
     error(err, file, fileList) {
       this.$message({
         type: "error",
         message: "上传失败"
       });
-    },
-    delvideo(row) {
-      this.$confirm("此操作将永久删除该视频, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          var params = {
-            videoId: row.videoId,
-            videoName: row.videoName
-          };
-          console.log(params)
-          video.delvideo(params).then(res => {
-            if (res.data.code == 200) {
-              this.$message({
-                type: "success",
-                message: "删除成功!"
-              });
-              this.getvideo();
-            } else {
-              this.$message({
-                type: "error",
-                message: "删除失败!"
-              });
-            }
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
+    }
   }
 };
 </script>
@@ -477,5 +477,9 @@ export default {
 .el-row {
   background-color: #fff;
   margin: 10px;
+}
+.el-upload__tip {
+  font-size: 14px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>
