@@ -2,9 +2,9 @@
   <div>
     <el-col :span="24">
       <el-col :span="4">&nbsp;</el-col>
-      <el-col :span="16">
-        <el-card class="box-card">
-          <div v-for="o in 4" :key="o" class="text item">{{'列表内容 ' + o }}</div>
+      <el-col :span="16" v-on:mouseenter="add(e)">
+        <el-card class="box-card" >
+          <div v-for="o in 4" :key="o" class="text item">{{'内容' + o }}</div>
         </el-card>
       </el-col>
       <el-col :span="4"></el-col>
@@ -13,7 +13,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    add(e) {
+      console.log(e);
+    }
+  }
+};
 </script>
 
 
@@ -26,7 +35,6 @@ export default {};
 .item {
   padding: 18px 0;
 }
-
 .box-card {
   width: 480px;
 }

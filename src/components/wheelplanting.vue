@@ -17,7 +17,8 @@ export default {
         { url: require("../assets/lp2.jpg") },
         { url: require("../assets/lp3.jpg") },
         { url: require("../assets/lp4.jpg") }
-      ]
+      ],
+      test:'中文'
     };
   }
 };

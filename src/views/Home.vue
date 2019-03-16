@@ -4,7 +4,6 @@
     <el-row>
       <myheader></myheader>
     </el-row>
-
     <!-- 主体 -->
     <!-- 标题区域 -->
     <el-row>
@@ -27,7 +26,12 @@
       <el-col :span="24">
         <el-col :span="4">&nbsp;</el-col>
         <el-col :span="16">
-          <vue-flashcard front="hello this is a flashcard" back="with animation"></vue-flashcard>
+          <vue-flashcard 
+          front="hello" 
+          imgFront="../../static/lp1.jpg"
+          back="你好"
+          imgBack="../../static/lp2.jpg"
+          ></vue-flashcard>
         </el-col>
         <el-col :span="4"></el-col>
       </el-col>
@@ -40,18 +44,19 @@
 </template>
 
 <script>
-import animate from 'animate.css'
+import animate from "animate.css";
 import vueFlashcard from "vue-flashcard";
 import myheader from "../components/myheader";
 import mytitle from "../components/mytitle";
 import wheelplanting from "../components/wheelplanting";
 import mycard from "../components/mycard";
 import mycollapse from "../components/mycollapse";
-
 import myfooter from "../components/myfooter";
 export default {
   data() {
-    return {};
+    return {
+      test: false
+    };
   },
   components: {
     vueFlashcard,
@@ -62,7 +67,11 @@ export default {
     mycollapse,
     myfooter
   },
-  methods: {}
+  methods: {
+    add(e) {
+      console.log(e);
+    }
+  }
 };
 </script>
 
