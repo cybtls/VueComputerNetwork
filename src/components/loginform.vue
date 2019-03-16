@@ -96,18 +96,17 @@
           <el-button round @click="reset">重置</el-button>
         </el-col>
         <el-col :span="4">
-          <router-link to="/stuhome" class="link">
+          <router-link to='/register' class="link">
             <i class="fa fa-long-arrow-right" aria-hidden="true">注册</i>
           </router-link>
         </el-col>
       </el-row>
     </template>
-    
   </div>
 </template>
 
 <script>
-import { student, teacher } from "@/api/api";
+import { student, teacher} from "@/api/api";
 export default {
   data() {
     return {
@@ -119,7 +118,7 @@ export default {
       identifyCode: "",
       realidentifyCode: "",
       //防止用户多次点击
-      isDisabled: false
+      isDisabled: false,
     };
   },
   mounted() {
@@ -332,7 +331,7 @@ export default {
       } else {
         return true;
       }
-    }
+    },
   }
 };
 </script>

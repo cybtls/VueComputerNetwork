@@ -44,11 +44,12 @@ Vue.prototype.resetSetItem = function (key, newVal) {
 //   let role = sessionStorage.getItem('role')
 //   let user = JSON.parse(sessionStorage.getItem('user'));
 //   //所包括的子路由
+//   const tourist = ['login','home','register']
 //   const student = ['login','stuhome','stuinfo','stuscore','study','problem','sturesources'];
 //   const teacher = ['login','teacherhome','teacherinfo','myclass','answer','recordscore','teacherresources','teachervideo'];
 //   const admin = ['login','adminhome','admininfo','allstuinfo','allteacher','classinfo','adminresources','adminvideo'];
 
-//   if (!user && to.path != '/login' ) {
+//   if (!user && tourist.indexOf(to.name) < 0 ) {
 //     //未登录状态
 //     alert("请先登录")
 //     next({ path: '/login' })

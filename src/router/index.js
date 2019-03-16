@@ -7,6 +7,7 @@ import stuhome from '../views/student/stuhome.vue'
 import adminhome from '../views/admin/adminhome.vue'
 import teacherhome from '../views/teacher/teacherhome.vue'
 import adminlogin from '../views/adminlogin.vue'
+import register from '../views/register.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -26,6 +27,12 @@ export default new Router({
     },
     {
       //管理员登录
+      path:'/register',
+      name:'register',
+      component:register,
+    },
+    {
+      //教师注册
       path:'/adminlogin',
       name:'adminlogin',
       component:adminlogin,
