@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- ???? -->
     <el-col :span="24" class="header">
       <el-col :span="15">&nbsp;</el-col>
       <el-col :span="4">
@@ -23,8 +22,6 @@ export default {
 .header{
     background-color: darkcyan;
     height: 30px;
-    margin: 10px 0;
-    position: fixed;
     .login{
         font-size: 16px;
         line-height: 30px;

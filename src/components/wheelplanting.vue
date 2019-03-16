@@ -1,32 +1,31 @@
 <template>
-  <div>
-    <!-- 轮播图 -->
-    <el-row>
-          <el-carousel :interval="4000" type="card" height="400px">
-            <el-carousel-item v-for="item in 6" :key="item">
-              <h3>{{ item }}</h3>
-            </el-carousel-item>
-          </el-carousel>
-    </el-row>
+  <div class="main">
+      <el-carousel :interval="5000" type="card" height="400px">
+        <el-carousel-item v-for="item in imglist" :key="item.url">
+          <img :src="item.url">
+        </el-carousel-item>
+      </el-carousel>
   </div>
 </template>
 
 <script>
 export default {
-  data(){
-    return{
-      imglist:[
-        {}
+  data() {
+    return {
+      imglist: [
+        { url: require("../assets/lp1.jpg") },
+        { url: require("../assets/lp2.jpg") },
+        { url: require("../assets/lp3.jpg") },
+        { url: require("../assets/lp4.jpg") }
       ]
-    }
+    };
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.el-row {
-  margin: 50px 0;
-}
+.main {
+  margin: 30px 0;
   .el-carousel__item h3 {
     color: #475669;
     font-size: 14px;
@@ -34,12 +33,9 @@ export default {
     line-height: 200px;
     margin: 0;
   }
-  
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
+  img{
+      width: 100%;
+      
   }
-  
-  .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-  }
+}
 </style>
