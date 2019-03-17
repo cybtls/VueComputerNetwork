@@ -3,7 +3,8 @@
     <el-col :span="24" class="header">
       <el-col :span="15">&nbsp;</el-col>
       <el-col :span="4">
-          <router-link to="/login" class="login">登录</router-link>
+          <router-link to="/login" class="login">学生、老师？前往登录</router-link>
+          <hr>
       </el-col>
     </el-col>
   </div>
@@ -20,7 +21,6 @@ export default {
 
 <style lang="scss" scoped>
 .header{
-    background-color: darkcyan;
     height: 30px;
     .login{
         font-size: 16px;

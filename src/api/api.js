@@ -325,3 +325,23 @@ export const answer = {
   },
 }
 
+export const score = {
+  getstuscore(params) {
+    return axios.get(`${base}/score/getstuscore`, {params:params}).then(res => {
+      return res
+    })
+  },
+  addscore(params) {
+    return axios.post(`${base}/score/addscore`, params).then(res => {
+      return res
+    })
+  },
+}
+
+export const course = {
+  getcourse(params) {
+    return axios.get(`${base}/course/getcourse`, {params:params}).then(res => {
+      return res
+    })
+  },
+}

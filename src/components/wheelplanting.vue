@@ -1,10 +1,16 @@
 <template>
   <div class="main">
-      <el-carousel :interval="5000" type="card" height="400px">
-        <el-carousel-item v-for="item in imglist" :key="item.url">
-          <img :src="item.url">
-        </el-carousel-item>
-      </el-carousel>
+    <el-row :span="24">
+      <el-col :span="2">&nbsp;</el-col>
+      <el-col :span="20">
+        <el-carousel :interval="5000" type="card" height="500px">
+          <el-carousel-item v-for="item in imglist" :key="item.url">
+            <img :src="item.url">
+          </el-carousel-item>
+        </el-carousel>
+      </el-col>
+      <el-col :span="2"></el-col>
+    </el-row>
   </div>
 </template>
 
@@ -18,7 +24,7 @@ export default {
         { url: require("../assets/lp3.jpg") },
         { url: require("../assets/lp4.jpg") }
       ],
-      test:'中文'
+      test: "中文"
     };
   }
 };
@@ -34,9 +40,8 @@ export default {
     line-height: 200px;
     margin: 0;
   }
-  img{
-      width: 100%;
-      
+  img {
+    width: 100%;
   }
 }
 </style>

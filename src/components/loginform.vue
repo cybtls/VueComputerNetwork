@@ -111,10 +111,10 @@ export default {
   data() {
     return {
       role: "stu",
-      stuaccount: "",
-      stupassword: "",
-      teacheraccount: "",
-      teacherpassword: "",
+      stuaccount: "201500101",
+      stupassword: "00000000",
+      teacheraccount: "test001",
+      teacherpassword: "11111111",
       identifyCode: "",
       realidentifyCode: "",
       //防止用户多次点击
