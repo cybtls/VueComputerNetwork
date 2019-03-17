@@ -76,8 +76,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home {
-}
+// .home {
+// }
 .el-row {
   padding: 1em 0;
 }
