@@ -490,6 +490,7 @@ npm i vue2-verify
             style="float:right;"
           ></el-pagination>
 
+
 ```
 
 具体的去看官方文档http://element-cn.eleme.io/#/zh-CN/component/installation
@@ -508,9 +509,8 @@ npm i vue2-verify
           this.total = res.data.count;			//后端返回的总数
         }
       });
+
 ```
-
-
 
 #### 文件上传与下载（结合后端.md去看）
 
@@ -536,6 +536,7 @@ npm i vue2-verify
             :on-exceed="handleExceed"
             accept=".PDF, .txt, .doc, .wps, .md"
           >
+
 ```
 
 ```javascript
@@ -598,6 +599,7 @@ npm i vue2-verify
         message: "上传失败"
       });
     }
+
 ```
 
 ##### 下载（接收后端数据并告诉浏览器这是下载）
@@ -628,5 +630,306 @@ npm i vue2-verify
       return res
     })
   },  
+
 ```
 
+#### 关于异步处理与同步处理（具体还是要去上网查）
+
+```javascript
+async beforeUpload(file) {
+      var type = file.type.lastIndexOf("/");
+      type = file.type.substring(file.type.lastIndexOf("/") + 1);
+      const typelist = ['avi','mov','mp4','mkv','flv','rmvb','m3u8']
+      if (
+        this.filedata.filecategoryid == null ||
+        this.filedata.filecategoryid.length == 0 ||
+        this.filedata.filename == null ||
+        this.filedata.filename.length == 0
+      ) {
+        this.$message({
+          type: "warning",
+          message: "请完善上面的内容"
+        });
+        return reject();
+      }
+      var params = {
+        videoname: this.filedata.filename + "." + type
+      };
+      await new Promise((resolve, reject) => {
+        resolve(
+          video.getvideobyname(params).then(res => {
+            if (res.data.code == 201) {
+              return true;
+            }else{
+              return false;
+            }
+          })
+        );
+      }).then(data => {
+        if(typelist.indexOf(type)<0){
+          this.$message({
+            type: "warning",
+            message: "文件类型不对，无法上传"
+          });
+           console.log("文件类型不对，无法上传")
+          return reject();
+        }
+        //大于500M不能上传
+        var maxsize = 1024 * 1024 * 1024 * 1024 * 5; 
+        if (file.size > maxsize) {
+          this.$message({
+            type: "warning",
+            message: "文件过大，无法上传"
+          });
+          console.log("文件过大，无法上传")
+          return reject();
+        }
+        if (data) {
+          this.$message({
+            type: "warning",
+            message: "文件名已经存在，请重新命名"
+          });
+           console.log("文件名已经存在，请重新命名")
+          return reject();
+        }
+      });
+    },
+
+```
+
+#### 前后端分离下的视频播放
+
+- 播放路径不能为绝对路径（我自己试过不可以，其他人我不知道），当然，如果不是前后端分离的项目可以
+- 路径为后端跑起来的项目路径（http://localhost:8080/resources/data/video/pdd.mp4），/resources/data/video  是我自己在后端定义视频存放位置（具体看后端）
+
+#### 实现视频播放（插件 ）
+
+##### GitHub
+
+https://surmon-china.github.io/vue-video-player/
+
+##### 别人的例子
+
+https://blog.csdn.net/fei565789229/article/details/78925395/
+
+```javascript
+<template>
+  <div class="container">
+    <div class="player">
+      <video-player  class="video-player vjs-custom-skin"
+                     ref="videoPlayer"
+                     :playsinline="true"
+                     :options="playerOptions"
+                     @play="onPlayerPlay($event)"
+                     @pause="onPlayerPause($event)"
+      >
+      </video-player>
+    </div>
+  </div>
+</template>
+
+<script>
+import { videoPlayer } from 'vue-video-player';
+export default {
+  data () {
+    return {
+      playerOptions: {
+//        playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+        autoplay: false, //如果true,浏览器准备好时开始回放。
+        muted: false, // 默认情况下将会消除任何音频。
+        loop: false, // 导致视频一结束就重新开始。
+        preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+        language: 'zh-CN',
+        aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+        fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+        sources: [{
+          type: "application/x-mpegURL",
+          src: "video.m3u8" //你的m3u8地址（必填）
+        }],
+        poster: "poster.jpg", //你的封面地址
+        width: document.documentElement.clientWidth,
+        notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+//        controlBar: {
+//          timeDivider: true,
+//          durationDisplay: true,
+//          remainingTimeDisplay: false,
+//          fullscreenToggle: true  //全屏按钮
+//        }
+      }
+    }
+  },
+  components: {
+    videoPlayer
+  },
+  methods: {
+    onPlayerPlay(player) {
+      alert("play");
+    },
+    onPlayerPause(player){
+      alert("pause");
+    },
+  },
+  computed: {
+    player() {
+      return this.$refs.videoPlayer.player
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style type="text/css" scoped>
+  .container {
+    background-color: #efefef;
+    min-height: 100%;
+  }
+</style>
+
+```
+
+##### 自己的实践（封装为一个组件）
+
+```html
+<template>
+  <div class="container">
+    <div class="player">
+      <video-player
+        class="video-player vjs-custom-skin"
+        ref="videoPlayer"
+        :playsinline="false"
+        :options="playerOptions"
+        @play="onPlayerPlay($event)"
+        @pause="onPlayerPause($event)"
+        @statechanged="playerStateChanged($event)"
+      ></video-player>
+    </div>
+  </div>
+</template>
+
+<script>
+import { videoPlayer } from "vue-video-player";
+import "../../node_modules/video.js/dist/video-js.css";
+import "../../node_modules/vue-video-player/src/custom-theme.css";
+export default {
+  props: {
+    videoUrl: String,
+    state: Boolean
+  },
+  data() {
+    return {
+      playerOptions: {
+        // playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+        autoplay: false, // 如果true,浏览器准备好时开始回放。
+        muted: false, // 默认情况下将会消除任何音频。
+        loop: false, // 导致视频一结束就重新开始。
+        preload: "auto", // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+        language: "zh-CN",
+        aspectRatio: "16:9", // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+        fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+        sources: [
+          {
+            type: "video/mp4",
+            src: this.videoUrl // 你的m3u8地址（必填）
+          }
+        ],
+        // poster: '', // 你的封面地址
+        width: document.documentElement.clientWidth,
+        notSupportedMessage: "此视频暂无法播放，请稍后再试" // 允许覆盖Video.js无法播放媒体源时显示的默认信息。
+        //        controlBar: {
+        //          timeDivider: true,
+        //          durationDisplay: true,
+        //          remainingTimeDisplay: false,
+        //          fullscreenToggle: true  //全屏按钮
+        //        }
+      }
+    };
+  },
+  watch: {
+    //更改视频源 videoUrl从弹出框组件传值
+    videoUrl: function(val) {
+      if (val !== "") {
+        this.$refs.videoPlayer.player.src(val);
+      }
+    },
+    //弹出框关闭后暂停 否则一直在播放 state从弹出框组件传值
+    state: function(val) {
+      if (val) {
+        this.$refs.videoPlayer.player.pause();
+      }
+    }
+  },
+  methods: {
+    onPlayerPlay(player) {},
+    onPlayerPause(player) {},
+    playerStateChanged(player) {}
+  },
+  computed: {
+    player() {
+      return this.$refs.videoPlayer.player;
+    }
+  }
+};
+</script>
+
+<style type="text/css" scoped>
+.container {
+  background-color: #efefef;
+  min-height: 100%;
+}
+</style>
+
+```
+
+看看如何调用
+
+```html
+    <el-dialog title="视频观看" :visible.sync="showvideoinfo" width="40%"  @close="closePlay">
+      <vueplayer ref="videoPlayer" :video-url="videoUrl" :state="state"></vueplayer>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showvideoinfo = false">退出</el-button>
+        <!-- <el-button type="primary" @click="detialPlayVideo = false" style="text-align:right">确 定</el-button> -->
+      </span>
+    </el-dialog>
+
+```
+
+记得引入和设置对应的url
+
+```javascript
+import vueplayer from "../../components/vueplayer";
+export default {
+  data() {
+    return {
+      showvideoinfo: false,
+      videoUrl:"",
+      state:true,
+    };
+  },
+  components: {
+    vueplayer
+  },
+  methods: {
+    watchvideo(row) {
+      var params ={
+        videoid :row.videoId
+      }
+      video.addviewingtimes(params).then(res=>{
+        if(res.data.code == 400){
+          this.$message({
+            type:'warning',
+            message:'观看次数好像出BUG,找找程序员之可我不会唱歌'
+          })
+        }
+      })
+      this.videoUrl = row.videoPath; //这里的url是对应行传过来的值，是数据库对应保存的路径http://localhost:8080/resources/data/video/pdd.mp4，本地的没去试过
+      this.showvideoinfo = true;
+      this.getvideo();
+    },
+    closePlay() {
+      this.$refs.videoPlayer.player.pause();
+      this.videoUrl = "";
+    }
+  }
+};
+
+```
