@@ -345,3 +345,11 @@ export const course = {
     })
   },
 }
+
+export const post = {
+  getpost(params) {
+    return axios.get(`${base}/post/getpost`, {params:params}).then(res => {
+      return res
+    })
+  },
+}

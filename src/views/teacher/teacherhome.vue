@@ -65,6 +65,10 @@
             <span slot="title" @click="toanswer">学生答疑</span>
           </el-menu-item>
           <el-menu-item index="6">
+            <i class="fa fa-commenting-o"></i>&nbsp;&nbsp;&nbsp;
+            <span slot="title" @click="toteachertalk">学习交流</span>
+          </el-menu-item>
+          <el-menu-item index="7">
             <i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;
             <span slot="title" @click="toteacherinfo">个人信息</span>
           </el-menu-item>
@@ -124,6 +128,17 @@
           >
             <li class="el-menu-item" @click="toanswer()">
               <i class="fa fa-question"/>
+            </li>
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="学习交流"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="toteachertalk()">
+              <i class="fa fa-commenting-o"/>
             </li>
           </el-tooltip>
           <el-tooltip
@@ -199,6 +214,9 @@ export default {
     //个人信息
     toteacherinfo() {
       this.$router.push({ path: "/teacherhome/teacherinfo" });
+    },
+    toteachertalk() {
+      this.$router.push({ path: "/teacherhome/teachertalk" });
     },
     logout() {
       this.$router.push({ path: "/login" });

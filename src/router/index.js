@@ -47,7 +47,8 @@ export default new Router({
         { path:'stuscore', name:'stuscore', component:()=>import('../views/student/stuscore.vue') },
         { path:'study', name:'study', component:()=>import('../views/student/study.vue') },
         { path:'sturesources', name:'sturesources', component:()=>import('../views/student/sturesources.vue') },
-        { path:'problem', name:'problem', component:()=>import('../views/student/problem.vue') }
+        { path:'problem', name:'problem', component:()=>import('../views/student/problem.vue') },
+        { path:'stutalk', name:'stutalk', component:()=>import('../views/student/stutalk.vue') }
       ]
     },
     {
@@ -62,6 +63,7 @@ export default new Router({
         { path:'allteacherinfo', name:'allteacherinfo', component:()=> import('../views/admin/allteacherinfo.vue') },
         { path:'classinfo', name:'classinfo', component:()=> import('../views/admin/classinfo.vue') },
         { path:'adminvideo', name:'adminvideo', component:()=> import('../views/admin/adminvideo.vue') },
+        { path:'admintalk', name:'admintalk', component:()=> import('../views/admin/admintalk.vue') },
       ]
     },
     {
@@ -76,6 +78,7 @@ export default new Router({
         { path:'myclass', name:'myclass', component:()=> import('../views/teacher/myclass.vue') },
         { path:'teacherresources', name:'teacherresources', component:()=> import('../views/teacher/teacherresources.vue') },
         { path:'teachervideo', name:'teachervideo', component:()=> import('../views/teacher/teachervideo.vue') },
+        { path:'teachertalk', name:'teachertalk', component:()=> import('../views/teacher/teachertalk.vue') },
       ]
     },
     {

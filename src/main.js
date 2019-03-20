@@ -45,9 +45,9 @@ Vue.prototype.resetSetItem = function (key, newVal) {
 //   let user = JSON.parse(sessionStorage.getItem('user'));
 //   //所包括的子路由
 //   const tourist = ['login','home','register']
-//   const student = ['login','stuhome','stuinfo','stuscore','study','problem','sturesources'];
-//   const teacher = ['login','teacherhome','teacherinfo','myclass','answer','recordscore','teacherresources','teachervideo'];
-//   const admin = ['login','adminhome','admininfo','allstuinfo','allteacher','classinfo','adminresources','adminvideo'];
+//   const student = ['login','stuhome','stuinfo','stuscore','study','problem','sturesources','stutalk'];
+//   const teacher = ['login','teacherhome','teacherinfo','myclass','answer','recordscore','teacherresources','teachervideo','teachertalk'];
+//   const admin = ['login','adminhome','admininfo','allstuinfo','allteacher','classinfo','adminresources','adminvideo','admintalk'];
 
 //   if (!user && tourist.indexOf(to.name) < 0 ) {
 //     //未登录状态
