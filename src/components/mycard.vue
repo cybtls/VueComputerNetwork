@@ -88,7 +88,6 @@ export default {
       }
     },
     removeclass(flag) {
-      console.log(flag)
       if (flag == "c1") {
         this.showanimate = false;
         this.showbouncec1 = false;

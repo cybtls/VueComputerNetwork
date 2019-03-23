@@ -352,4 +352,23 @@ export const post = {
       return res
     })
   },
+  addpostfire(params) {
+    return axios.get(`${base}/post/addpostfire`, {params:params}).then(res => {
+      return res
+    })
+  },
+}
+
+
+export const comment = {
+  getcomment(params) {
+    return axios.get(`${base}/comment/getcomment`, {params:params}).then(res => {
+      return res
+    })
+  },
+  addcomment(params) {
+    return axios.post(`${base}/comment/addcomment`, params).then(res => {
+      return res
+    })
+  },
 }

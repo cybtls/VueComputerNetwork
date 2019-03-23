@@ -45,7 +45,7 @@
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button @click="downresources(scope.row)" type="primary" size="small">下载</el-button>
-                <el-button @click="delresources(scope.row)" type="error" size="small">删除</el-button>
+                <el-button @click="delresources(scope.row)" type="danger" size="small">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
