@@ -20,7 +20,7 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
-           <span class="user"> 欢迎你,{{user.teacherName}}</span>
+            <span class="user">欢迎你,{{user.stuName}}</span>
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -60,6 +60,11 @@
             <span slot="title" @click="tostudy">在线学习</span>
           </el-menu-item>
           <el-menu-item index="5">
+            <i class="fa fa-commenting-o"></i>&nbsp;&nbsp;&nbsp;
+            <span slot="title" @click="tostutalk">帖子板块</span>
+          </el-menu-item>
+
+          <el-menu-item index="6">
             <i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;
             <!-- <router-link slot="title" to="/stuinfo">个人信息</router-link> -->
             <span slot="title" @click="tostuinfo">个人信息</span>
@@ -109,6 +114,17 @@
           >
             <li class="el-menu-item" @click="tostudy">
               <i class="fa fa-line-chart"/>
+            </li>
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="帖子板块"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="tostutalk">
+              <i class="fa fa-commenting-o"/>
             </li>
           </el-tooltip>
           <el-tooltip
@@ -168,6 +184,9 @@ export default {
     tostudy() {
       this.$router.push({ path: "/stuhome/study" });
     },
+    tostutalk() {
+      this.$router.push({ path: "/stuhome/stutalk" });
+    },
     tostuinfo() {
       this.$router.push({ path: "/stuhome/stuinfo" });
     },
@@ -182,10 +201,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.user{
+.user {
   font-size: 15px;
   font-weight: 300;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   padding-right: 15px;
 }
 .container {

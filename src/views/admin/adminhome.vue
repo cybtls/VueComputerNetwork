@@ -20,7 +20,7 @@
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
-            <span class="user"> 欢迎你,{{user.adminName}}</span>
+            <span class="user">欢迎你,{{user.adminName}}</span>
             <img src="../../assets/rock.gif">
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -59,11 +59,15 @@
             <i class="fa fa-file"></i>&nbsp;&nbsp;&nbsp;
             <span slot="title" @click="toadminresources">文档管理</span>
           </el-menu-item>
-                    <el-menu-item index="5">
+          <el-menu-item index="5">
             <i class="fa fa-video-camera"></i>&nbsp;&nbsp;&nbsp;
             <span slot="title" @click="toadminvideo">视频管理</span>
           </el-menu-item>
           <el-menu-item index="6">
+            <i class="fa fa-commenting-o"></i>&nbsp;&nbsp;&nbsp;
+            <span slot="title" @click="toadmintalk">帖子管理</span>
+          </el-menu-item>
+          <el-menu-item index="7">
             <i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;
             <span slot="title" @click="toadmininfo">个人信息</span>
           </el-menu-item>
@@ -115,7 +119,7 @@
               <i class="fa fa-file"/>
             </li>
           </el-tooltip>
-                    <el-tooltip
+          <el-tooltip
             class="item"
             effect="dark"
             content="视频管理"
@@ -126,7 +130,17 @@
               <i class="fa fa-video-camera"/>
             </li>
           </el-tooltip>
-          
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="帖子管理"
+            placement="right"
+            transition="el-zoom-in-center"
+          >
+            <li class="el-menu-item" @click="toadmintalk">
+              <i class="fa fa-commenting-o"/>
+            </li>
+          </el-tooltip>
           <el-tooltip
             class="item"
             effect="dark"
@@ -190,8 +204,11 @@ export default {
     toadminresources() {
       this.$router.push({ path: "/adminhome/adminresources" });
     },
-    toadminvideo(){
-this.$router.push({ path: "/adminhome/adminvideo" });
+    toadminvideo() {
+      this.$router.push({ path: "/adminhome/adminvideo" });
+    },
+    toadmintalk() {
+      this.$router.push({ path: "/adminhome/admintalk" });
     },
     toadmininfo() {
       this.$router.push({ path: "/adminhome/admininfo" });
@@ -210,10 +227,10 @@ this.$router.push({ path: "/adminhome/adminvideo" });
 </script>
 
 <style scoped lang="scss">
-.user{
+.user {
   font-size: 15px;
   font-weight: 300;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   padding-right: 15px;
 }
 .container {
