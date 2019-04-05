@@ -12,16 +12,16 @@
   "dependencies": {
     "animate.css": "^3.7.0",
     "axios": "^0.18.0",
-    "element-ui": "^2.5.4",
+    "element-ui": "^2.7.0",
     "font-awesome": "^4.7.0",
     "videojs-contrib-hls": "^5.15.0",
     "videojs-flash": "^2.2.0",
-    "vue": "^2.5.2",
+    "vue": "^2.6.10",
     "vue-flashcard": "^1.1.6",
-    "vue-identify-network": "^1.0.4",
+    "vue-identify-network": "^1.1.2",
     "vue-router": "^3.0.1",
     "vue-video-player": "^5.0.2",
-    "vue2-verify": "^1.1.0"
+    "vue2-verify": "^1.1.5"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -50,17 +50,17 @@
     "postcss-url": "^7.2.1",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.1.0",
-    "semver": "^5.3.0",
+    "semver": "^5.7.0",
     "shelljs": "^0.7.6",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",
     "vue-particles": "^1.0.9",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.5.2",
+    "vue-template-compiler": "^2.6.10",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.9.1",
+    "webpack-dev-server": "^2.11.5",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
